@@ -46,9 +46,9 @@ public static class ViewFactory
         typeof( WizardStep ),
     };
 
-    private static readonly Type ViewType = typeof(View);
+    internal static readonly Type ViewType = typeof(View);
 
-    private static MenuBarItem[] GetDefaultMenuBarItems( )
+    internal static MenuBarItem[] GetDefaultMenuBarItems( )
     {
         return new[]
         {
