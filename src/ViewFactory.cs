@@ -7,24 +7,24 @@ using Attribute = Terminal.Gui.Attribute;
 namespace TerminalGuiDesigner;
 
 /// <summary>
-/// Creates new <see cref="View"/> instances configured to have
-/// sensible dimensions and content for dragging/configuring in
-/// the designer.
+///   Creates new <see cref="View" /> instances configured to have sensible dimensions
+///   and content for dragging/configuring in the designer.
 /// </summary>
 public static class ViewFactory
 {
     /// <summary>
-    /// <para>
-    /// <see cref="AddMenuOperation"/> adds a new top level menu (e.g. File, Edit etc.).  In the designer
-    /// all menus must have at least 1 <see cref="MenuItem"/> under them, so it will be
-    /// created with a single <see cref="MenuItem"/> in it already.  That item will
-    /// bear this text.
-    /// </para>
-    /// <para>
-    /// This string should be used by any other areas of code that want to create new <see cref="MenuItem"/> under
-    /// a top/sub menu (e.g. <see cref="ViewFactory"/>).
-    /// </para>
+    ///   A constant defining the default text for a new menu item added via the <see cref="ViewFactory" />
     /// </summary>
+    /// <remarks>
+    ///   <see cref="AddMenuOperation" /> adds a new top level menu (e.g. File, Edit etc.).<br />
+    ///   In the designer, all menus must have at least 1 <see cref="MenuItem" /> under them, so it will be
+    ///   created with a single <see cref="MenuItem" /> in it, already.<br />
+    ///   That item will bear this text.<br /><br />
+    ///   This string should be used by any other areas of code that want to create new <see cref="MenuItem" /> under
+    ///   a top/sub menu (e.g. <see cref="ViewFactory" />).
+    /// </remarks>
+    /// <value>The string "Edit Me"</value>
+    /// <seealso cref="DefaultMenuBarItems" />
     internal const string DefaultMenuItemText = "Edit Me";
 
     internal static readonly Type[] KnownUnsupportedTypes = {
@@ -44,8 +44,20 @@ public static class ViewFactory
         typeof( WizardStep ),
     };
 
+    /// <summary>
+    ///   A static reference to <see langword="typeof" />(<see cref="View" />)
+    /// </summary>
     internal static readonly Type ViewType = typeof(View);
 
+    /// <summary>
+    ///   Gets a new instance of a default <see cref="MenuBarItem" />[], to include as the default initial
+    ///   <see cref="MenuBar.Menus" />
+    ///   collection of a new <see cref="MenuBar" />
+    /// </summary>
+    /// <value>
+    ///   A new single-element array of <see cref="MenuBarItem" />, with default text, an empty
+    ///   <see cref="MenuItem.Action" />, and empty <see cref="MenuItem.Help" /> string.
+    /// </value>
     internal static MenuBarItem[] DefaultMenuBarItems
     {
         get
@@ -60,9 +72,9 @@ public static class ViewFactory
     }
 
     /// <summary>
-    /// Gets all <see cref="View"/> Types that are supported by <see cref="ViewFactory"/>.
+    ///   Gets all <see cref="View" /> Types that are supported by <see cref="ViewFactory" />.
     /// </summary>
-    /// <value>All types supported by <see cref="ViewFactory"/>.</value>
+    /// <value>An <see cref="IEnumerable{T}" /> of <see cref="Type" />s supported by <see cref="ViewFactory" />.</value>
     public static IEnumerable<Type> SupportedViewTypes { get; } =
         ViewType.Assembly.DefinedTypes
                 .Where( unfilteredType => unfilteredType is
@@ -78,19 +90,28 @@ public static class ViewFactory
     private static bool IsSupportedType( this Type t ) => SupportedViewTypes.Contains( t );
 
     /// <summary>
-    /// Creates a new instance of a <see cref="View"/> of Type <typeparamref name="T"/> with
-    /// size/placeholder values that make it easy to see and design in the editor.
+    ///   Creates a new instance of a <see cref="View" /> of Type <typeparamref name="T" /> with
+    ///   size/placeholder values that make it easy to see and design in the editor.
     /// </summary>
-    /// <typeparam name="T">A descendant of <see cref="View"/> that does not exist in the
-    /// <see cref="KnownUnsupportedTypes"/> collection.</typeparam>
-    /// <param name="width">The width of the requested view.</param>
-    /// <param name="height">The height of the requested view.</param>
+    /// <typeparam name="T">
+    ///   A concrete descendant type of <see cref="View" /> that does not exist in the
+    ///   <see cref="KnownUnsupportedTypes" /> collection and which has a public constructor.
+    /// </typeparam>
+    /// <param name="width">
+    ///   An optional width of the requested view. Default values are dependent on the requested
+    ///   type, if not supplied.
+    /// </param>
+    /// <param name="height">
+    ///   An optional height of the requested view. Default values are dependent on the requested
+    ///   type, if not supplied.
+    /// </param>
     /// <exception cref="NotSupportedException">If an unsupported type is requested</exception>
-    /// <returns>A new instance of <paramref name="{T}"/>.</returns>
+    /// <returns>
+    ///   A new instance of <paramref name="{T}" /> with the specified dimensions or defaults, if not provided.
+    /// </returns>
     /// <remarks>
-    /// <typeparamref name="T"/> must inherit from <see cref="View"/>,
-    /// must have a public constructor, and must not exist in the
-    /// <see cref="KnownUnsupportedTypes"/> collection, at run-time.
+    ///   <typeparamref name="T" /> must inherit from <see cref="View" />, must have a public constructor, and must
+    ///   not exist in the <see cref="KnownUnsupportedTypes" /> collection, at run-time.
     /// </remarks>
     public static T Create<T>(int? width = null, int? height = null )
         where T : View, new( )
@@ -156,13 +177,15 @@ public static class ViewFactory
     }
 
     /// <summary>
-    /// Creates a new instance of <see cref="View"/> of Type <paramref name="t"/> with
-    /// size/placeholder values that make it easy to see and design in the editor.
+    ///   Creates a new instance of <see cref="View" /> of Type <paramref name="t" /> with
+    ///   size/placeholder values that make it easy to see and design in the editor.
     /// </summary>
-    /// <param name="t">A Type of <see cref="View"/>.  See <see cref="GetSupportedViews"/> for the
-    /// full list of allowed Types.</param>
-    /// <returns>A new instance of Type <paramref name="t"/>.</returns>
-    /// <exception cref="Exception">Thrown if Type is not a subclass of <see cref="View"/>.</exception>
+    /// <param name="t">
+    ///   A Type of <see cref="View" />.<br />
+    ///   See <see cref="SupportedViewTypes" /> for the full list of allowed Types.
+    /// </param>
+    /// <returns>A new instance of Type <paramref name="t" />.</returns>
+    /// <exception cref="Exception">Thrown if Type is not a subclass of <see cref="View" />.</exception>
     public static View Create(Type t)
     {
         if (typeof(TableView).IsAssignableFrom(t))
