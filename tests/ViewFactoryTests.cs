@@ -1,4 +1,7 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Terminal.Gui;
 using TerminalGuiDesigner;
 
@@ -42,6 +45,49 @@ internal class ViewFactoryTests : Tests
     private static IEnumerable<Type> ViewFactory_SupportedViewTypes => ViewFactory.SupportedViewTypes;
 
     [Test]
+    public void CreateT_DoesNotThrowOnSupportedTypes( [ValueSource( nameof( ViewFactory_SupportedViewTypes ) )] Type supportedType )
+    {
+        // NUnit does not natively support generic type parameters in test methods, so this is easiest to do via reflection
+        MethodInfo viewFactoryCreateTGeneric = typeof( ViewFactory ).GetMethods( ).Single( m => m is { IsGenericMethod: true, IsPublic: true, IsStatic: true } );
+
+        MethodInfo viewFactoryCreateTConcrete = viewFactoryCreateTGeneric.MakeGenericMethod( supportedType );
+
+        object? createdView = null;
+
+        Assert.That( ( ) =>
+                         createdView = viewFactoryCreateTConcrete
+                             .Invoke( null, new object?[] { null, null } ),
+                     Throws.Nothing );
+
+        if ( createdView is IDisposable d )
+        {
+            d.Dispose( );
+        }
+    }
+
+    [Test]
+    public void CreateT_ThrowsOnUnsupportedTypes( [ValueSource( nameof( CreateT_ThrowsOnUnsupportedTypes_Cases ) )] Type unsupportedType )
+    {
+        Type[] a = ViewFactory_SupportedViewTypes.ToArray( );
+
+        // NUnit does not natively support generic type parameters in test methods, so this is easiest to do via reflection
+        MethodInfo viewFactoryCreateTGeneric = typeof( ViewFactory ).GetMethods( ).Single( m => m is { IsGenericMethod: true, IsPublic: true, IsStatic: true } );
+
+        MethodInfo viewFactoryCreateTConcrete = viewFactoryCreateTGeneric.MakeGenericMethod( unsupportedType );
+
+        object? createdView = null;
+        object?[] methodParameters = { null, null };
+
+        Assert.That( ( ) => createdView = viewFactoryCreateTConcrete.Invoke( null, methodParameters ),
+                     Throws.TypeOf<TargetInvocationException>( ).With.InnerException.TypeOf<NotSupportedException>( ) );
+
+        if ( createdView is IDisposable d )
+        {
+            d.Dispose( );
+        }
+    }
+
+    [Test]
     [Category( "Change Control" )]
     public void DefaultMenuBarItems_IsExactlyAsExpected( )
     {
@@ -80,5 +126,10 @@ internal class ViewFactoryTests : Tests
     public void ViewType_IsTerminalGuiView( )
     {
         Assert.That( ViewFactory.ViewType, Is.EqualTo( typeof( View ) ) );
+    }
+
+    private static IEnumerable<Type> CreateT_ThrowsOnUnsupportedTypes_Cases( )
+    {
+        return ViewFactory_KnownUnsupportedTypes.Where( t => !t.IsGenericType );
     }
 }
