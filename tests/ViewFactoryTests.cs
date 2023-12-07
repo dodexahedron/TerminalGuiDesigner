@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Terminal.Gui;
 using TerminalGuiDesigner;
 
@@ -11,9 +11,13 @@ internal class ViewFactoryTests : Tests
 {
     private static readonly MenuBarItem[] DefaultMenuBarItems_ExpectedCollection =
     {
-        new(
-            "_File (F9)",
-            new[] { new MenuItem( ViewFactory.DefaultMenuItemText, string.Empty, ( ) => { } ) } )
+        new( "_File (F9)",
+             new[]
+             {
+                 new MenuItem( ViewFactory.DefaultMenuItemText,
+                               string.Empty,
+                               ( ) => { } )
+             } )
     };
 
     private static readonly Type[] KnownUnsupportedTypes_ExpectedTypes =
