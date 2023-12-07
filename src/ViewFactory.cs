@@ -99,7 +99,7 @@ public static class ViewFactory
         {
             throw new NotSupportedException( $"Requested type {typeof( T ).Name} is not supported" );
         }
-        
+
         T newView = new( );
 
         switch ( newView )
@@ -110,51 +110,49 @@ public static class ViewFactory
                 dt.Columns.Add( "Column 1" );
                 dt.Columns.Add( "Column 2" );
                 dt.Columns.Add( "Column 3" );
-                tv.Width = width ?? 50;
-                tv.Height = height ?? 5;
+                SetDefaultDimensions( newView, width ?? 50, height ?? 5 );
                 tv.Table = new DataTableSource( dt );
                 break;
             case TabView tv:
                 tv.AddEmptyTab("Tab1");
                 tv.AddEmptyTab("Tab2");
-                tv.Width = width ?? 50;
-                tv.Height = height ?? 5;
+                SetDefaultDimensions( newView, width ?? 50, height ?? 5 );
                 break;
             case TextValidateField tvf:
                 tvf.Provider = new TextRegexProvider( ".*" );
                 tvf.Text = "Heya";
-                newView.Width = width ?? 5;
-                newView.Height = height ?? 1;
-                goto default;
+                SetDefaultDimensions( newView, width, height );
+                break;
             case TextField tf:
                 tf.Text = "Heya";
-                newView.Width = width ?? 5;
-                newView.Height = height ?? 1;
-                goto default;
+                SetDefaultDimensions( newView, width, height );
+                break;
             case ProgressBar pb:
                 pb.Fraction = 1f;
-                pb.Width = width ?? 10;
-                pb.Height = height ?? 1;
+                SetDefaultDimensions( newView, width ?? 10, height ?? 1 );
                 break;
             case MenuBar mb:
                 mb.Menus = DefaultMenuBarItems;
                 break;
             case Window w:
-                w.Width = width ?? 10;
-                w.Height = height ?? 5;
+                SetDefaultDimensions( newView, width ?? 10, height ?? 5 );
                 break;
             case Label l:
                 l.SetActualText("Heya");
-                newView.Width = width ?? 5;
-                newView.Height = height ?? 1;
+                SetDefaultDimensions( newView, width, height );
                 break;
             default:
-                newView.Width = width ?? 5;
-                newView.Height = height ?? 1;
-                break;
+                newView.Dispose( );
+                return Create( typeof( T ) ) as T;
         }
 
         return newView;
+
+        static void SetDefaultDimensions(T v, int? width = 5, int? height = 1 )
+        {
+            v.Width = width;
+            v.Height = height;
+        }
     }
 
     /// <summary>
