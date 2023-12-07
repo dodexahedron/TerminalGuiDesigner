@@ -321,11 +321,6 @@ public static class ViewFactory
         return instance;
     }
 
-    private static MenuBar CreateMenuBar()
-    {
-        return new( DefaultMenuBarItems );
-    }
-
     private static View CreateRadioGroup()
     {
         var group = new RadioGroup
@@ -336,35 +331,5 @@ public static class ViewFactory
         group.RadioLabels = new string[] { "Option 1", "Option 2" };
 
         return group;
-    }
-
-    private static TableView CreateTableView()
-    {
-        var dt = new DataTable();
-        dt.Columns.Add("Column 0");
-        dt.Columns.Add("Column 1");
-        dt.Columns.Add("Column 2");
-        dt.Columns.Add("Column 3");
-
-        return new TableView
-        {
-            Width = 50,
-            Height = 5,
-            Table = new DataTableSource(dt),
-        };
-    }
-
-    private static TabView CreateTabView()
-    {
-        var tabView = new TabView
-        {
-            Width = 50,
-            Height = 5,
-        };
-
-        tabView.AddEmptyTab("Tab1");
-        tabView.AddEmptyTab("Tab2");
-
-        return tabView;
     }
 }
