@@ -10,7 +10,9 @@ using TerminalGuiDesigner.ToCode;
 
 namespace UnitTests;
 
-class ListViewTests : Tests
+[TestFixture]
+[Category("Code Generation")]
+internal class ListViewTests : Tests
 {
     [Test]
     public void TestRoundTrip_PreserveList()
@@ -20,7 +22,7 @@ class ListViewTests : Tests
         var file = new FileInfo("TestRoundTrip_PreserveList.cs");
         var designOut = viewToCode.GenerateNewView(file, "YourNamespace", typeof(Window));
 
-        var lvOut = (ListView)ViewFactory.Create(typeof(ListView));
+        var lvOut = ViewFactory.Create<ListView>( );
 
         ClassicAssert.AreEqual(3, lvOut.Source.Count);
 

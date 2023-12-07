@@ -13,6 +13,8 @@ namespace UnitTests;
 /// Tests for adding Views to other Views either with <see cref="AddViewOperation"/> or directly.
 /// </summary>
 [TestFixture]
+[Category("Code Generation")]
+[Category("UI Operations")]
 internal class AddViewTests : Tests
 {
     [Test]

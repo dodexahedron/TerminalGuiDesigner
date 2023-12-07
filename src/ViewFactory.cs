@@ -147,11 +147,15 @@ public static class ViewFactory
             case TextValidateField tvf:
                 tvf.Provider = new TextRegexProvider( ".*" );
                 tvf.Text = "Heya";
-                SetDefaultDimensions( newView, width, height );
+                SetDefaultDimensions( newView, width ?? 5, height ?? 1 );
+                break;
+            case DateField df:
+                df.Date = DateTime.Now;
+                SetDefaultDimensions( newView, width ?? 20, height ?? 1 );
                 break;
             case TextField tf:
                 tf.Text = "Heya";
-                SetDefaultDimensions( newView, width, height );
+                SetDefaultDimensions( newView, width ?? 5, height ?? 1 );
                 break;
             case ProgressBar pb:
                 pb.Fraction = 1f;
@@ -159,6 +163,9 @@ public static class ViewFactory
                 break;
             case MenuBar mb:
                 mb.Menus = DefaultMenuBarItems;
+                break;
+            case StatusBar sb:
+                sb.Items = new[] { new StatusItem( Key.F1, "F1 - Edit Me", null ) };
                 break;
             case RadioGroup rg:
                 rg.RadioLabels = new string[] { "Option 1", "Option 2" };
@@ -168,12 +175,16 @@ public static class ViewFactory
                 gv.GraphColor = new Attribute( Color.White, Color.Black );
                 SetDefaultDimensions( newView, width ?? 20, height ?? 5 );
                 break;
-            case Window w:
+            case ListView lv:
+                lv.SetSource( new List<string> { "Item1", "Item2", "Item3" } );
+                SetDefaultDimensions( newView, width ?? 20, height ?? 3 );
+                break;
+            case Window:
                 SetDefaultDimensions( newView, width ?? 10, height ?? 5 );
                 break;
             case Label l:
                 l.SetActualText("Heya");
-                SetDefaultDimensions( newView, width, height );
+                SetDefaultDimensions( newView, width ?? 4, height ?? 1 );
                 break;
             default:
                 newView.Dispose( );
@@ -182,10 +193,10 @@ public static class ViewFactory
 
         return newView;
 
-        static void SetDefaultDimensions(T v, int? width = 5, int? height = 1 )
+        static void SetDefaultDimensions( T v, int width = 5, int height = 1 )
         {
-            v.Width = width;
-            v.Height = height;
+            v.Width = Math.Max( v.Bounds.Width, width );
+            v.Height = Math.Max( v.Bounds.Height, height );
         }
     }
 
@@ -225,7 +236,7 @@ public static class ViewFactory
 
         if (typeof(StatusBar).IsAssignableFrom(t))
         {
-            return new StatusBar(new[] { new StatusItem(Key.F1, "F1 - Edit Me", null) });
+            return Create<StatusBar>( );
         }
 
         if (t == typeof(TextValidateField))
@@ -240,11 +251,7 @@ public static class ViewFactory
 
         if (t == typeof(View))
         {
-            return new View
-            {
-                Width = 10,
-                Height = 5,
-            };
+            return Create<View>( );
         }
 
         if (t == typeof(Window))
@@ -254,32 +261,17 @@ public static class ViewFactory
 
         if (t == typeof(TextField))
         {
-            return new TextField
-            {
-                Width = 10,
-                Height = 1,
-            };
+            return Create<TextField>( );
         }
 
         if (typeof(GraphView).IsAssignableFrom(t))
         {
-            return new GraphView
-            {
-                Width = 20,
-                Height = 5,
-                GraphColor = new Attribute(Color.White, Color.Black),
-            };
+            return Create<GraphView>( );
         }
 
         if (typeof(ListView).IsAssignableFrom(t))
         {
-            var lv = new ListView(new List<string> { "Item1", "Item2", "Item3" })
-            {
-                Width = 20,
-                Height = 3,
-            };
-
-            return lv;
+            return Create<ListView>( );
         }
 
         if (t == typeof(LineView))

@@ -10,7 +10,7 @@ internal class KeyboardManagerTests : Tests
     [Test]
     public void Backspace_WithDateFieldSelected()
     {
-        var v = ViewFactory.Create(typeof(DateField));
+        var v = ViewFactory.Create<DateField>();
         var d = new Design(new SourceCodeFile(new FileInfo("ff.cs")), "ff", v);
         v.Data = d;
 
@@ -25,7 +25,7 @@ internal class KeyboardManagerTests : Tests
     [Test]
     public void ButtonRename()
     {
-        var v = (Button)ViewFactory.Create(typeof(Button));
+        var v = ViewFactory.Create<Button>( );
         var d = new Design(new SourceCodeFile(new FileInfo("ff.cs")), "ff", v);
         v.Data = d;
 
