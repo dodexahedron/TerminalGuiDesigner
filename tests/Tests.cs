@@ -99,7 +99,7 @@ internal class Tests
         var file = new FileInfo(caller + ".cs");
         var designOut = viewToCode.GenerateNewView(file, "YourNamespace", typeof(T1));
 
-        viewOut = (T2)ViewFactory.Create(typeof(T2));
+        viewOut = ViewFactory.Create<T2>( );
 
         OperationManager.Instance.Do(new AddViewOperation(viewOut, designOut, fieldName));
         adjust((Design)viewOut.Data, viewOut);
