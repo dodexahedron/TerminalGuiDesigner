@@ -27,7 +27,8 @@ public static class ViewFactory
     /// <seealso cref="DefaultMenuBarItems" />
     internal const string DefaultMenuItemText = "Edit Me";
 
-    internal static readonly Type[] KnownUnsupportedTypes = {
+    internal static readonly Type[] KnownUnsupportedTypes = 
+    {
         typeof( Toplevel ),
         typeof( Dialog ),
         typeof( FileDialog ),
@@ -85,9 +86,13 @@ public static class ViewFactory
                     IsValueType: false
                 } )
                 .Where( filteredType => filteredType.IsSubclassOf( ViewType ) )
-                .Where( viewDescendantType => !KnownUnsupportedTypes.Any( viewDescendantType.IsAssignableTo ) );
+                .Where( viewDescendantType => !KnownUnsupportedTypes.Any( viewDescendantType.IsAssignableTo )
+                                              || viewDescendantType == typeof( Window ) );
 
-    private static bool IsSupportedType( this Type t ) => SupportedViewTypes.Contains( t );
+    private static bool IsSupportedType( this Type t )
+    {
+        return t == typeof( Window ) || ( !KnownUnsupportedTypes.Any( t.IsSubclassOf ) & !KnownUnsupportedTypes.Contains( t ) );
+    }
 
     /// <summary>
     ///   Creates a new instance of a <see cref="View" /> of Type <typeparamref name="T" /> with
