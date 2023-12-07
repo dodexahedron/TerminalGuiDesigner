@@ -12,17 +12,6 @@ namespace UnitTests;
 [Category( "Core" )]
 internal class ViewFactoryTests : Tests
 {
-    private static readonly MenuBarItem[] DefaultMenuBarItems_ExpectedCollection =
-    {
-        new( "_File (F9)",
-             new[]
-             {
-                 new MenuItem( ViewFactory.DefaultMenuItemText,
-                               string.Empty,
-                               ( ) => { } )
-             } )
-    };
-
     private static readonly Type[] KnownUnsupportedTypes_ExpectedTypes =
     {
         typeof( Toplevel ),
@@ -130,6 +119,7 @@ internal class ViewFactoryTests : Tests
 
     private static IEnumerable<Type> CreateT_ThrowsOnUnsupportedTypes_Cases( )
     {
+        // Filtering generics out because they'll still throw, but a different exception
         return ViewFactory_KnownUnsupportedTypes.Where( t => !t.IsGenericType );
     }
 }
