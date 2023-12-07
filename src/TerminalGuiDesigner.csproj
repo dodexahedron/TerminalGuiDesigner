@@ -3,6 +3,9 @@
 		<AdditionalFiles Include="stylecop.json" />
 	</ItemGroup>
 	<ItemGroup>
+		<InternalsVisibleTo Include="UnitTests" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Include=".\logo.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
