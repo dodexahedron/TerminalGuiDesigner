@@ -186,16 +186,18 @@ public static class ViewFactory
     /// </param>
     /// <returns>A new instance of Type <paramref name="t" />.</returns>
     /// <exception cref="Exception">Thrown if Type is not a subclass of <see cref="View" />.</exception>
+    /// <remarks>Delegates to <see cref="Create{T}" />, for types supported by that method.</remarks>
+    [Obsolete( "Use the generic Create<T>() method, when possible", false )]
     public static View Create(Type t)
     {
         if (typeof(TableView).IsAssignableFrom(t))
         {
-            return CreateTableView( );
+            return Create<TableView>( );
         }
 
         if (typeof(TabView).IsAssignableFrom(t))
         {
-            return CreateTabView( );
+            return Create<TabView>( );
         }
 
         if (typeof(RadioGroup).IsAssignableFrom(t))
@@ -205,7 +207,7 @@ public static class ViewFactory
 
         if (typeof(MenuBar).IsAssignableFrom(t))
         {
-            return CreateMenuBar( );
+            return Create<MenuBar>( );
         }
 
         if (typeof(StatusBar).IsAssignableFrom(t))
@@ -215,23 +217,12 @@ public static class ViewFactory
 
         if (t == typeof(TextValidateField))
         {
-            return new TextValidateField
-            {
-                Provider = new TextRegexProvider(".*"),
-                Text = "Heya",
-                Width = 5,
-                Height = 1,
-            };
+            return Create<TextValidateField>( );
         }
 
         if (t == typeof(ProgressBar))
         {
-            return new ProgressBar
-            {
-                Width = 10,
-                Height = 1,
-                Fraction = 1f,
-            };
+            return Create<ProgressBar>( );
         }
 
         if (t == typeof(View))
