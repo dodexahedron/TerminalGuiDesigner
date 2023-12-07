@@ -155,6 +155,10 @@ public static class ViewFactory
             case MenuBar mb:
                 mb.Menus = DefaultMenuBarItems;
                 break;
+            case RadioGroup rg:
+                rg.RadioLabels = new string[] { "Option 1", "Option 2" };
+                SetDefaultDimensions( newView, width ?? 10, height ?? 2 );
+                break;
             case Window w:
                 SetDefaultDimensions( newView, width ?? 10, height ?? 5 );
                 break;
@@ -202,7 +206,7 @@ public static class ViewFactory
 
         if (typeof(RadioGroup).IsAssignableFrom(t))
         {
-            return CreateRadioGroup( );
+            return Create<RadioGroup>( );
         }
 
         if (typeof(MenuBar).IsAssignableFrom(t))
@@ -319,17 +323,5 @@ public static class ViewFactory
         }
 
         return instance;
-    }
-
-    private static View CreateRadioGroup()
-    {
-        var group = new RadioGroup
-        {
-            Width = 10,
-            Height = 2,
-        };
-        group.RadioLabels = new string[] { "Option 1", "Option 2" };
-
-        return group;
     }
 }
