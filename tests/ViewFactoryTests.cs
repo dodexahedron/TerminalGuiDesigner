@@ -39,6 +39,8 @@ internal class ViewFactoryTests : Tests
 
     private static Type[] ViewFactory_KnownUnsupportedTypes => ViewFactory.KnownUnsupportedTypes;
 
+    private static IEnumerable<Type> ViewFactory_SupportedViewTypes => ViewFactory.SupportedViewTypes;
+
     [Test]
     [Category( "Change Control" )]
     public void DefaultMenuBarItems_IsExactlyAsExpected( )
