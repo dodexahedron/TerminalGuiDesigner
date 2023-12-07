@@ -164,6 +164,10 @@ public static class ViewFactory
                 rg.RadioLabels = new string[] { "Option 1", "Option 2" };
                 SetDefaultDimensions( newView, width ?? 10, height ?? 2 );
                 break;
+            case GraphView gv:
+                gv.GraphColor = new Attribute( Color.White, Color.Black );
+                SetDefaultDimensions( newView, width ?? 20, height ?? 5 );
+                break;
             case Window w:
                 SetDefaultDimensions( newView, width ?? 10, height ?? 5 );
                 break;
