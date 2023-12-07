@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -47,6 +47,24 @@ internal class ViewFactoryTests : Tests
                          createdView = viewFactoryCreateTConcrete
                              .Invoke( null, new object?[] { null, null } ),
                      Throws.Nothing );
+
+        if ( createdView is IDisposable d )
+        {
+            d.Dispose( );
+        }
+    }
+
+    [Test]
+    public void CreateT_ReturnsValidViewOfExpectedType( [ValueSource( nameof( ViewFactory_SupportedViewTypes ) )] Type supportedType )
+    {
+        // NUnit does not natively support generic type parameters in test methods, so this is easiest to do via reflection
+        MethodInfo viewFactoryCreateTGeneric = typeof( ViewFactory ).GetMethods( ).Single( m => m is { IsGenericMethod: true, IsPublic: true, IsStatic: true } );
+
+        MethodInfo viewFactoryCreateTConcrete = viewFactoryCreateTGeneric.MakeGenericMethod( supportedType );
+
+        object? createdView = viewFactoryCreateTConcrete.Invoke( null, new object?[] { null, null } );
+
+        Assert.That( createdView, Is.Not.Null.And.InstanceOf( supportedType ) );
 
         if ( createdView is IDisposable d )
         {
