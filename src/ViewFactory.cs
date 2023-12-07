@@ -240,11 +240,7 @@ public static class ViewFactory
 
         if (t == typeof(Window))
         {
-            return new Window
-            {
-                Width = 10,
-                Height = 5,
-            };
+            return Create<Window>( );
         }
 
         if (t == typeof(TextField))
