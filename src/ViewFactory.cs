@@ -27,7 +27,7 @@ public static class ViewFactory
     /// </summary>
     internal const string DefaultMenuItemText = "Edit Me";
 
-    internal static readonly Type[] KnownUnsupportedTypes = new[] {
+    internal static readonly Type[] KnownUnsupportedTypes = {
         typeof( Toplevel ),
         typeof( Dialog ),
         typeof( FileDialog ),
@@ -35,12 +35,10 @@ public static class ViewFactory
         typeof( OpenDialog ),
         typeof( ScrollBarView ),
         typeof( TreeView<> ),
-
         typeof( Slider<> ),
 
         // Theses are special types of view and shouldn't be added manually by user
         typeof( Frame ),
-
         // BUG These seem to cause stack overflows in CreateSubControlDesigns (see TestAddView_RoundTrip)
         typeof( Wizard ),
         typeof( WizardStep ),
