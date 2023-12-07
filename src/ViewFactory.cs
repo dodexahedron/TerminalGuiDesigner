@@ -13,6 +13,20 @@ namespace TerminalGuiDesigner;
 /// </summary>
 public static class ViewFactory
 {
+    /// <summary>
+    /// <para>
+    /// <see cref="AddMenuOperation"/> adds a new top level menu (e.g. File, Edit etc.).  In the designer
+    /// all menus must have at least 1 <see cref="MenuItem"/> under them, so it will be
+    /// created with a single <see cref="MenuItem"/> in it already.  That item will
+    /// bear this text.
+    /// </para>
+    /// <para>
+    /// This string should be used by any other areas of code that want to create new <see cref="MenuItem"/> under
+    /// a top/sub menu (e.g. <see cref="ViewFactory"/>).
+    /// </para>
+    /// </summary>
+    internal const string DefaultMenuItemText = "Edit Me";
+
     internal static readonly Type[] KnownUnsupportedTypes = new[] {
         typeof( Toplevel ),
         typeof( Dialog ),
@@ -40,7 +54,7 @@ public static class ViewFactory
         {
             new MenuBarItem(
                 "_File (F9)",
-                new[] { new MenuItem( AddMenuOperation.DefaultMenuItemText, string.Empty, ( ) => { } ) } )
+                new[] { new MenuItem( DefaultMenuItemText, string.Empty, ( ) => { } ) } )
         };
     }
 
