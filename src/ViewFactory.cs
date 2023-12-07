@@ -48,14 +48,17 @@ public static class ViewFactory
 
     internal static readonly Type ViewType = typeof(View);
 
-    internal static MenuBarItem[] GetDefaultMenuBarItems( )
+    internal static MenuBarItem[] DefaultMenuBarItems
     {
-        return new[]
+        get
         {
-            new MenuBarItem(
-                "_File (F9)",
-                new[] { new MenuItem( DefaultMenuItemText, string.Empty, ( ) => { } ) } )
-        };
+            return new[]
+            {
+                new MenuBarItem(
+                    "_File (F9)",
+                    new[] { new MenuItem( DefaultMenuItemText, string.Empty, ( ) => { } ) } )
+            };
+        }
     }
 
     /// <summary>
@@ -136,7 +139,7 @@ public static class ViewFactory
                 pb.Height = height ?? 1;
                 break;
             case MenuBar mb:
-                mb.Menus = GetDefaultMenuBarItems( );
+                mb.Menus = DefaultMenuBarItems;
                 break;
             case Window w:
                 w.Width = width ?? 10;
@@ -310,7 +313,7 @@ public static class ViewFactory
 
     private static MenuBar CreateMenuBar()
     {
-        return new( GetDefaultMenuBarItems( ) );
+        return new( DefaultMenuBarItems );
     }
 
     private static View CreateRadioGroup()
