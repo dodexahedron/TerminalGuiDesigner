@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using Terminal.Gui;
 using TerminalGuiDesigner;
@@ -56,12 +56,14 @@ public class ColorSchemeManager
     }
 
     /// <summary>
-    /// Populates <see cref="Schemes"/> based on the private ColorScheme instances declared in the
-    /// Designer.cs file of the <paramref name="viewBeingEdited"/>.  Does not clear any existing known
-    /// schemes.
+    ///   Populates the internal collection of <see cref="NamedColorScheme" />s based on the private <see cref="ColorScheme" /> fields
+    ///   declared in the Designer.cs file of the <paramref name="viewBeingEdited" />.<br />
     /// </summary>
-    /// <param name="viewBeingEdited">View to find color schemes in, must be the root design (i.e. <see cref="Design.IsRoot"/>).</param>
-    /// <exception cref="ArgumentException">Thrown if passed a non root <see cref="Design"/>.</exception>
+    /// <remarks>Does not clear any existing known <see cref="ColorScheme" />s.</remarks>
+    /// <param name="viewBeingEdited">
+    ///   View to find color schemes in, must be the root design (i.e. <see cref="Design.IsRoot" />).
+    /// </param>
+    /// <exception cref="ArgumentException">Thrown if passed a non-root <see cref="Design" />.</exception>
     public void FindDeclaredColorSchemes(Design viewBeingEdited)
     {
         if (!viewBeingEdited.IsRoot)
@@ -71,7 +73,7 @@ public class ColorSchemeManager
 
         View view = viewBeingEdited.View;
 
-        // find all fields in class
+        // find all fields of type ColorScheme in class
         IEnumerable<FieldInfo> colorSchemeFieldInfos =
             view.GetType( )
                 .GetFields( BindingFlags.NonPublic | BindingFlags.Instance )
