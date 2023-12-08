@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using Terminal.Gui;
 using TerminalGuiDesigner;
@@ -72,8 +72,10 @@ public class ColorSchemeManager
         View view = viewBeingEdited.View;
 
         // find all fields in class
-        IEnumerable<FieldInfo> colorSchemeFieldInfos = view.GetType( ).GetFields( BindingFlags.NonPublic | BindingFlags.Instance )
-                                             .Where( fieldInfo => fieldInfo.FieldType == typeof( ColorScheme ) );
+        IEnumerable<FieldInfo> colorSchemeFieldInfos =
+            view.GetType( )
+                .GetFields( BindingFlags.NonPublic | BindingFlags.Instance )
+                .Where( fieldInfo => fieldInfo.FieldType == typeof( ColorScheme ) );
 
         foreach (FieldInfo fieldInfo in colorSchemeFieldInfos)
         {
