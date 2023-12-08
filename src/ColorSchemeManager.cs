@@ -3,6 +3,7 @@ using System.Reflection;
 using Terminal.Gui;
 using TerminalGuiDesigner;
 using TerminalGuiDesigner.Operations;
+using System.Linq;
 
 namespace TerminalGuiDesigner;
 
@@ -78,16 +79,13 @@ public class ColorSchemeManager
             view.GetType( )
                 .GetFields( BindingFlags.NonPublic | BindingFlags.Instance )
                 .Where( fieldInfo => fieldInfo.FieldType == typeof( ColorScheme ) );
-
-        foreach (FieldInfo fieldInfo in colorSchemeFieldInfos)
-        {
-            ColorScheme? val = fieldInfo.GetValue(view) as ColorScheme;
-
-            if (val != null && !colorSchemes.Any(namedColorScheme => namedColorScheme.Name.Equals(fieldInfo.Name)))
-            {
-                colorSchemes.Add(new (fieldInfo.Name, val));
-            }
-        }
+        
+        colorSchemes.AddRange( colorSchemeFieldInfos
+                               .Select( fieldInfo => ( Field: fieldInfo, Scheme: fieldInfo.GetValue( view ) as ColorScheme ) )
+                               .Where( fieldAndScheme => fieldAndScheme.Scheme is not null )
+                               .Where( fieldAndNonNullScheme =>
+                                           !colorSchemes.Any( namedColorScheme => namedColorScheme.Name.Equals( fieldAndNonNullScheme.Field.Name ) ) )
+                               .Select( fieldAndScheme => new NamedColorScheme( fieldAndScheme.Field.Name, fieldAndScheme.Scheme! ) ) );
     }
 
     /// <summary>
