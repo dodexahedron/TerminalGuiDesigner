@@ -83,8 +83,8 @@ internal class AddViewTests : Tests
 
         Assert.That( lblIn.Text, Is.EqualTo( lblOut.Text ) );
 
-        lblIn.Width.GetDimType(out var outDimType, out var outDimValue, out var outDimOffset);
-        lblIn.X.GetPosType(new List<Design>(), out var outPosType, out var outPosValue, out var outPosOffset, out _, out _);
+        Assert.That( lblIn.Width.GetDimType( out var outDimType, out var outDimValue, out _ ) );
+        Assert.That( lblIn.X.GetPosType( new List<Design>( ), out var outPosType, out var outPosValue, out _, out _, out _ ) );
 
         Assert.Multiple( ( ) =>
         {
