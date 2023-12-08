@@ -11,6 +11,7 @@ using TerminalGuiDesigner.UI;
 
 namespace UnitTests;
 
+[FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
 internal class Tests
 {
     private static bool _init;
