@@ -240,7 +240,6 @@ public static class ViewFactory
     /// <returns>A new instance of Type <paramref name="t" />.</returns>
     /// <exception cref="Exception">Thrown if Type is not a subclass of <see cref="View" />.</exception>
     /// <remarks>Delegates to <see cref="Create{T}" />, for types supported by that method.</remarks>
-    [Obsolete( "Use the generic Create<T>() method, when possible", false )]
     public static View Create(Type t)
     {
         if (typeof(TableView).IsAssignableFrom(t))
@@ -320,7 +319,17 @@ public static class ViewFactory
 
         if (typeof(SpinnerView).IsAssignableFrom(t))
         {
-            return new SpinnerView() { AutoSpin = true };
+            return Create<SpinnerView>( );
+        }
+
+        if ( typeof( FrameView ).IsAssignableFrom( t ) )
+        {
+            return Create<FrameView>( );
+        }
+
+        if ( typeof( HexView ).IsAssignableFrom( t ) )
+        {
+            return Create<HexView>( );
         }
 
         var instance = Activator.CreateInstance(t) as View ?? throw new Exception($"CreateInstance returned null for Type '{t}'");
@@ -328,12 +337,6 @@ public static class ViewFactory
 
         instance.Width = Math.Max(instance.Bounds.Width, 4);
         instance.Height = Math.Max(instance.Bounds.Height, 1);
-
-        if (instance is FrameView || instance is HexView)
-        {
-            instance.Height = 5;
-            instance.Width = 10;
-        }
 
         return instance;
     }
