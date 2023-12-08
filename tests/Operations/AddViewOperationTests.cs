@@ -15,9 +15,12 @@ internal class AddViewOperationTests : Tests
     {
         var d = Get10By10View( );
 
-        var instance = ViewFactory.Create( candidateType );
+        View? instance = Get_ViewFactoryCreateTConcreteForType(candidateType).Invoke( null, new object?[] { null, null } ) as View;
+
+        Assume.That( instance, Is.Not.Null.And.InstanceOf( candidateType ) );
+        
         const string instanceFieldName = "blah";
-        var op = new AddViewOperation( instance, d, instanceFieldName );
+        var op = new AddViewOperation( instance!, d, instanceFieldName );
         Assert.That( op.Do, Throws.Nothing );
 
         IList<View> subviews = d.View.Subviews;
