@@ -72,16 +72,16 @@ public class ColorSchemeManager
         View view = viewBeingEdited.View;
 
         // find all fields in class
-        IEnumerable<FieldInfo> schemes = view.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                                             .Where(t => t.FieldType == typeof(ColorScheme));
+        IEnumerable<FieldInfo> colorSchemeFieldInfos = view.GetType( ).GetFields( BindingFlags.NonPublic | BindingFlags.Instance )
+                                             .Where( fieldInfo => fieldInfo.FieldType == typeof( ColorScheme ) );
 
-        foreach (FieldInfo f in schemes)
+        foreach (FieldInfo fieldInfo in colorSchemeFieldInfos)
         {
-            ColorScheme? val = f.GetValue(view) as ColorScheme;
+            ColorScheme? val = fieldInfo.GetValue(view) as ColorScheme;
 
-            if (val != null && !this.colorSchemes.Any(s => s.Name.Equals(f.Name)))
+            if (val != null && !this.colorSchemes.Any(namedColorScheme => namedColorScheme.Name.Equals(fieldInfo.Name)))
             {
-                this.colorSchemes.Add(new NamedColorScheme(f.Name, val));
+                this.colorSchemes.Add(new NamedColorScheme(fieldInfo.Name, val));
             }
         }
     }
