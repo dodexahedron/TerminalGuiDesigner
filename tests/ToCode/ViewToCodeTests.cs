@@ -37,14 +37,10 @@ public class ViewToCodeTests
     [Test]
     public void GenerateNewView_ValidParameters_ReturnsExpectedDesign([ValueSource(typeof(ViewFactory), nameof(ViewFactory.SupportedViewTypes))] Type viewType )
     {
-        if ( viewType == typeof( TextValidateField ) )
-        {
-            Assert.Ignore(  );
-        }
         FileInfo csFilePath = new ( $"GenerateNewView_ValidParameters_ReturnsExpectedDesign_{viewType.Name}.cs" );
-        string namespaceName = "TestNamespace";
+        const string namespaceName = "TestNamespace";
 
-        var result = _viewToCode.GenerateNewView( csFilePath, namespaceName, viewType );
+        Design result = _viewToCode.GenerateNewView( csFilePath, namespaceName, viewType );
 
         Assert.That( result,Is.Not.Null );
         Assert.That( result.View, Is.InstanceOf( viewType ) );
