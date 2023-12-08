@@ -70,16 +70,16 @@ internal class AddViewTests : Tests
     /// and has to have the suffix 'f' to ensure that the value is treated as a float
     /// and not a double (which won't compile)
     /// </summary>
-    /// <param name="offset"></param>
+    /// <param name="offsetValue">The offset to apply</param>
     [Test]
-    public void Test60Percent_RoundTrip([Values]bool? offset)
+    public void Test60Percent_RoundTrip([Range(-1,1)]int offsetValue)
     {
         var lblIn = RoundTrip<Dialog, Label>(
-            (d, lbl) =>
-        {
-            lbl.Width = offset == null ? Dim.Percent(60) : offset.Value ? Dim.Percent(60) + 1 : Dim.Percent(60) - 1;
-            lbl.X = offset == null ? Pos.Percent(60) : offset.Value ? Pos.Percent(60) + 1 : Pos.Percent(60) - 1;
-        }, out var lblOut);
+            ( d, lbl ) =>
+            {
+                lbl.Width = Dim.Percent( 60f ) + offsetValue;
+                lbl.X = Pos.Percent( 60f ) + offsetValue;
+            }, out var lblOut );
 
         Assert.That( lblIn.Text, Is.EqualTo( lblOut.Text ) );
 
