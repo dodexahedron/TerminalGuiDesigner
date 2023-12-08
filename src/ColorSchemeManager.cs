@@ -72,17 +72,16 @@ public class ColorSchemeManager
             throw new ArgumentException("Expected to only be passed the root view");
         }
 
-        View view = viewBeingEdited.View;
-
-        // find all fields of type ColorScheme in class
-
-        colorSchemes.AddRange( view.GetType( )
-                                   .GetFields( BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly )
-                                   .Where( FieldIsColorScheme )
-                                   .Select( FieldAndSchemeTuples )
-                                   .Where( SchemeIsNotNull )
-                                   .Where( SameNameDoesNotAlreadyExist )
-                                   .Select( NamedColorSchemesToAdd ) );
+        // Find all private fields of type ColorScheme in the class,
+        // filter out any that are null,
+        // and add any that don't already exist in the ColorSchemeManager to the collection
+        colorSchemes.AddRange( viewBeingEdited.View.GetType( )
+                                              .GetFields( BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly )
+                                              .Where( FieldIsColorScheme )
+                                              .Select( FieldAndSchemeTuples )
+                                              .Where( SchemeIsNotNull )
+                                              .Where( SameNameDoesNotAlreadyExist )
+                                              .Select( NamedColorSchemesToAdd ) );
         return;
 
         static bool FieldIsColorScheme( FieldInfo fieldInfo )
@@ -92,7 +91,7 @@ public class ColorSchemeManager
 
         (FieldInfo Field, ColorScheme? Scheme) FieldAndSchemeTuples( FieldInfo fieldInfo )
         {
-            return ( Field: fieldInfo, Scheme: fieldInfo.GetValue( view ) as ColorScheme );
+            return ( Field: fieldInfo, Scheme: fieldInfo.GetValue( viewBeingEdited.View ) as ColorScheme );
         }
 
         static bool SchemeIsNotNull( (FieldInfo Field, ColorScheme? Scheme) fieldAndScheme )
