@@ -28,7 +28,7 @@ public class ColorSchemeManager
     /// <summary>
     /// Gets all known named color schemes defined in editor.
     /// </summary>
-    public ReadOnlyCollection<NamedColorScheme> Schemes => this.colorSchemes.ToList().AsReadOnly();
+    public ReadOnlyCollection<NamedColorScheme> Schemes => this.colorSchemes.AsReadOnly();
 
     /// <summary>
     /// Clears all <see cref="NamedColorScheme"/> tracked by manager.
