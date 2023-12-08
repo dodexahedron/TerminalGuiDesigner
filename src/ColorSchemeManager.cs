@@ -83,9 +83,9 @@ public class ColorSchemeManager
         {
             ColorScheme? val = fieldInfo.GetValue(view) as ColorScheme;
 
-            if (val != null && !this.colorSchemes.Any(namedColorScheme => namedColorScheme.Name.Equals(fieldInfo.Name)))
+            if (val != null && !colorSchemes.Any(namedColorScheme => namedColorScheme.Name.Equals(fieldInfo.Name)))
             {
-                this.colorSchemes.Add(new NamedColorScheme(fieldInfo.Name, val));
+                colorSchemes.Add(new (fieldInfo.Name, val));
             }
         }
     }
