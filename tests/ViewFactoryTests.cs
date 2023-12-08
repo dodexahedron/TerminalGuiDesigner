@@ -31,15 +31,10 @@ internal class ViewFactoryTests : Tests
     [Test]
     public void CreateT_DoesNotThrowOnSupportedTypes( [ValueSource( nameof( ViewFactory_SupportedViewTypes ) )] Type supportedType )
     {
-        // NUnit does not natively support generic type parameters in test methods, so this is easiest to do via reflection
-        MethodInfo viewFactoryCreateTGeneric = typeof( ViewFactory ).GetMethods( ).Single( m => m is { IsGenericMethod: true, IsPublic: true, IsStatic: true } );
-
-        MethodInfo viewFactoryCreateTConcrete = viewFactoryCreateTGeneric.MakeGenericMethod( supportedType );
-
         object? createdView = null;
 
         Assert.That( ( ) =>
-                         createdView = viewFactoryCreateTConcrete
+                         createdView = Get_ViewFactoryCreateTConcreteForType( supportedType )
                              .Invoke( null, new object?[] { null, null } ),
                      Throws.Nothing );
 
@@ -52,12 +47,7 @@ internal class ViewFactoryTests : Tests
     [Test]
     public void CreateT_ReturnsValidViewOfExpectedType( [ValueSource( nameof( ViewFactory_SupportedViewTypes ) )] Type supportedType )
     {
-        // NUnit does not natively support generic type parameters in test methods, so this is easiest to do via reflection
-        MethodInfo viewFactoryCreateTGeneric = typeof( ViewFactory ).GetMethods( ).Single( m => m is { IsGenericMethod: true, IsPublic: true, IsStatic: true } );
-
-        MethodInfo viewFactoryCreateTConcrete = viewFactoryCreateTGeneric.MakeGenericMethod( supportedType );
-
-        object? createdView = viewFactoryCreateTConcrete.Invoke( null, new object?[] { null, null } );
+        object? createdView = Get_ViewFactoryCreateTConcreteForType( supportedType ).Invoke( null, new object?[] { null, null } );
 
         Assert.That( createdView, Is.Not.Null.And.InstanceOf( supportedType ) );
 
@@ -70,17 +60,9 @@ internal class ViewFactoryTests : Tests
     [Test]
     public void CreateT_ThrowsOnUnsupportedTypes( [ValueSource( nameof( CreateT_ThrowsOnUnsupportedTypes_Cases ) )] Type unsupportedType )
     {
-        Type[] a = ViewFactory_SupportedViewTypes.ToArray( );
-
-        // NUnit does not natively support generic type parameters in test methods, so this is easiest to do via reflection
-        MethodInfo viewFactoryCreateTGeneric = typeof( ViewFactory ).GetMethods( ).Single( m => m is { IsGenericMethod: true, IsPublic: true, IsStatic: true } );
-
-        MethodInfo viewFactoryCreateTConcrete = viewFactoryCreateTGeneric.MakeGenericMethod( unsupportedType );
-
         object? createdView = null;
-        object?[] methodParameters = { null, null };
 
-        Assert.That( ( ) => createdView = viewFactoryCreateTConcrete.Invoke( null, methodParameters ),
+        Assert.That( ( ) => createdView = Get_ViewFactoryCreateTConcreteForType( unsupportedType ).Invoke(  null, new object?[] { null, null }  ),
                      Throws.TypeOf<TargetInvocationException>( ).With.InnerException.TypeOf<NotSupportedException>( ) );
 
         if ( createdView is IDisposable d )
