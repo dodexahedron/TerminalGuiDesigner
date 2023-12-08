@@ -75,17 +75,15 @@ public class ColorSchemeManager
         View view = viewBeingEdited.View;
 
         // find all fields of type ColorScheme in class
-        IEnumerable<FieldInfo> colorSchemeFieldInfos =
-            view.GetType( )
-                .GetFields( BindingFlags.NonPublic | BindingFlags.Instance )
-                .Where( fieldInfo => fieldInfo.FieldType == typeof( ColorScheme ) );
-        
-        colorSchemes.AddRange( colorSchemeFieldInfos
-                               .Select( fieldInfo => ( Field: fieldInfo, Scheme: fieldInfo.GetValue( view ) as ColorScheme ) )
-                               .Where( fieldAndScheme => fieldAndScheme.Scheme is not null )
-                               .Where( fieldAndNonNullScheme =>
-                                           !colorSchemes.Any( namedColorScheme => namedColorScheme.Name.Equals( fieldAndNonNullScheme.Field.Name ) ) )
-                               .Select( fieldAndScheme => new NamedColorScheme( fieldAndScheme.Field.Name, fieldAndScheme.Scheme! ) ) );
+
+        colorSchemes.AddRange( view.GetType( )
+                                   .GetFields( BindingFlags.NonPublic | BindingFlags.Instance )
+                                   .Where( fieldInfo => fieldInfo.FieldType == typeof( ColorScheme ) )
+                                   .Select( fieldInfo => ( Field: fieldInfo, Scheme: fieldInfo.GetValue( view ) as ColorScheme ) )
+                                   .Where( fieldAndScheme => fieldAndScheme.Scheme is not null )
+                                   .Where( fieldAndNonNullScheme =>
+                                               !colorSchemes.Any( namedColorScheme => namedColorScheme.Name.Equals( fieldAndNonNullScheme.Field.Name ) ) )
+                                   .Select( fieldAndScheme => new NamedColorScheme( fieldAndScheme.Field.Name, fieldAndScheme.Scheme! ) ) );
     }
 
     /// <summary>
