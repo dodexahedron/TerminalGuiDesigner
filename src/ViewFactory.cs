@@ -1,4 +1,5 @@
 using System.Data;
+using System.Reflection;
 using Terminal.Gui;
 using Terminal.Gui.TextValidateProviders;
 using TerminalGuiDesigner.Operations.MenuOperations;
@@ -140,8 +141,8 @@ public static class ViewFactory
                 tv.Table = new DataTableSource( dt );
                 break;
             case TabView tv:
-                tv.AddEmptyTab("Tab1");
-                tv.AddEmptyTab("Tab2");
+                tv.AddEmptyTab( "Tab1" );
+                tv.AddEmptyTab( "Tab2" );
                 SetDefaultDimensions( newView, width ?? 50, height ?? 5 );
                 break;
             case TextValidateField tvf:
@@ -179,16 +180,43 @@ public static class ViewFactory
                 lv.SetSource( new List<string> { "Item1", "Item2", "Item3" } );
                 SetDefaultDimensions( newView, width ?? 20, height ?? 3 );
                 break;
+            case FrameView:
+            case HexView:
+                SetDefaultDimensions( newView, width ?? 10, height ?? 5 );
+                break;
             case Window:
                 SetDefaultDimensions( newView, width ?? 10, height ?? 5 );
                 break;
+            case LineView:
+                SetDefaultDimensions( newView, width ?? 8, height ?? 1 );
+                break;
+            case TreeView:
+                SetDefaultDimensions( newView, width ?? 16, height ?? 5 );
+                break;
+            case ScrollView sv:
+                sv.ContentSize = new Size( 20, 10 );
+                SetDefaultDimensions(newView, width ?? 10, height ?? 5 );
+                break;
             case Label l:
-                l.SetActualText("Heya");
+                l.SetActualText( "Heya" );
                 SetDefaultDimensions( newView, width ?? 4, height ?? 1 );
                 break;
+            case SpinnerView sv:
+                sv.AutoSpin = true;
+                if ( width is not null )
+                {
+                    sv.Width = width;
+                }
+
+                if ( height is not null )
+                {
+                    sv.Height = height;
+                }
+
+                break;
             default:
-                newView.Dispose( );
-                return Create( typeof( T ) ) as T;
+                SetDefaultDimensions( newView, width ?? 5, height ?? 1 );
+                break;
         }
 
         return newView;
@@ -276,30 +304,17 @@ public static class ViewFactory
 
         if (t == typeof(LineView))
         {
-            return new LineView()
-            {
-                Width = 8,
-                Height = 1,
-            };
+            return Create<LineView>( );
         }
 
         if (t == typeof(TreeView))
         {
-            return new TreeView()
-            {
-                Width = 16,
-                Height = 5,
-            };
+            return Create<TreeView>( );
         }
 
         if (t == typeof(ScrollView))
         {
-            return new ScrollView()
-            {
-                Width = 10,
-                Height = 5,
-                ContentSize = new Size(20, 10),
-            };
+            return Create<ScrollView>( );
         }
 
         if (typeof(SpinnerView).IsAssignableFrom(t))
