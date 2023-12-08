@@ -182,6 +182,7 @@ public static class ViewFactory
                 break;
             case FrameView:
             case HexView:
+                newView.SetActualText( "Heya" );
                 SetDefaultDimensions( newView, width ?? 10, height ?? 5 );
                 break;
             case Window:
