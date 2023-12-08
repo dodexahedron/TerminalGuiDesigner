@@ -1,4 +1,4 @@
-﻿using System.CodeDom;
+using System.CodeDom;
 using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using Terminal.Gui;
@@ -22,6 +22,16 @@ public class ViewToCode
     /// inheritor with <paramref name="className"/> including constructor and call to <see cref="CodeDomArgs.InitMethod"/>.</returns>
     public static string GetGenerateNewViewCode(string className, string namespaceName)
     {
+        if ( string.IsNullOrWhiteSpace( className ) )
+        {
+            throw new ArgumentException( "Value cannot be null or whitespace.", nameof( className ) );
+        }
+
+        if ( string.IsNullOrWhiteSpace( namespaceName ) )
+        {
+            throw new ArgumentException( "Value cannot be null or whitespace.", nameof( namespaceName ) );
+        }
+
         string indent = "    ";
 
         var ns = new CodeNamespace(namespaceName);
