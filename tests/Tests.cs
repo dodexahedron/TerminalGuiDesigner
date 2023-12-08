@@ -10,7 +10,7 @@ namespace UnitTests;
 [FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
 internal class Tests
 {
-    private static bool _init;
+    private bool _init;
 
     [SetUp]
     public void SetUp()
