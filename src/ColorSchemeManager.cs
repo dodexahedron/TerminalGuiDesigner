@@ -69,15 +69,15 @@ public class ColorSchemeManager
             throw new ArgumentException("Expected to only be passed the root view");
         }
 
-        var view = viewBeingEdited.View;
+        View view = viewBeingEdited.View;
 
         // find all fields in class
-        var schemes = view.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-            .Where(t => t.FieldType == typeof(ColorScheme));
+        IEnumerable<FieldInfo> schemes = view.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                                             .Where(t => t.FieldType == typeof(ColorScheme));
 
-        foreach (var f in schemes)
+        foreach (FieldInfo f in schemes)
         {
-            var val = f.GetValue(view) as ColorScheme;
+            ColorScheme? val = f.GetValue(view) as ColorScheme;
 
             if (val != null && !this.colorSchemes.Any(s => s.Name.Equals(f.Name)))
             {
