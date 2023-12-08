@@ -229,7 +229,7 @@ internal class DragOperationTests : Tests
         ClassicAssert.AreEqual(1, screenX);
         ClassicAssert.AreEqual(1, screenY);
 
-        var frameView = ViewFactory.Create(typeof(FrameView));
+        var frameView = ViewFactory.Create<FrameView>( );
         frameView.X = 10;
         frameView.Y = 10;
         var op = new AddViewOperation(frameView, rootDesign, "frame");

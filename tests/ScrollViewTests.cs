@@ -42,8 +42,8 @@ class ScrollViewTests : Tests
     [Test]
     public void TestRoundTrip_ScrollViewInsideTabView_PreserveContentViews()
     {
-        var scrollOut = ViewFactory.Create(typeof(ScrollView));
-        var buttonOut = ViewFactory.Create(typeof(Button));
+        var scrollOut = ViewFactory.Create<ScrollView>( );
+        var buttonOut = ViewFactory.Create<Button>( );
 
         var tabIn = RoundTrip<View, TabView>(
             (d, tab) =>

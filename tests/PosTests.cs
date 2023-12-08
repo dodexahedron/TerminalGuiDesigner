@@ -245,7 +245,7 @@ internal class PosTests : Tests
         lbl.X = 50;
         lbl.Y = 50;
 
-        var btn = ViewFactory.Create(typeof(Button));
+        var btn = ViewFactory.Create<Button>( );
 
         new AddViewOperation(lbl, designOut, "label1").Do();
         new AddViewOperation(btn, designOut, "btn").Do();

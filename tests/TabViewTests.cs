@@ -9,7 +9,8 @@ using TerminalGuiDesigner.ToCode;
 
 namespace UnitTests;
 
-class TabViewTests : Tests
+[TestFixture]
+internal class TabViewTests : Tests
 {
     [Test]
     public void TestRoundTrip_PreserveTabs()
@@ -36,7 +37,7 @@ class TabViewTests : Tests
         var file = new FileInfo("TestGetTabView.cs");
         var designOut = viewToCode.GenerateNewView(file, "YourNamespace", typeof(Dialog));
 
-        var tvOut = ViewFactory.Create(typeof(TabView));
+        var tvOut = ViewFactory.Create<TabView>( );
 
         OperationManager.Instance.Do(new AddViewOperation(tvOut, designOut, "myTabview"));
 

@@ -15,7 +15,7 @@ namespace UnitTests
 
             ClassicAssert.IsEmpty(Application.MainLoop.Timeouts);
 
-            var s = (SpinnerView)ViewFactory.Create(typeof(SpinnerView));
+            var s = (SpinnerView)ViewFactory.Create<SpinnerView>( );
             
             ClassicAssert.IsNotEmpty(Application.MainLoop.Timeouts);
             s.Dispose();

@@ -7,6 +7,8 @@ using TerminalGuiDesigner.UI;
 
 namespace UnitTests;
 
+[TestFixture]
+[TestOf(typeof(MouseManager))]
 internal class MouseManagerTests : Tests
 {
     [Test]
@@ -143,12 +145,12 @@ internal class MouseManagerTests : Tests
         ClassicAssert.AreEqual(1, OperationManager.Instance.UndoStackSize);
     }
 
-    [TestCase(typeof(View))]
-    public void TestDragResizeView_CannotResize_DimFill(Type t)
+    [Test]
+    public void TestDragResizeView_CannotResize_DimFill()
     {
         var d = Get10By10View();
 
-        var view = ViewFactory.Create(t);
+        var view = ViewFactory.Create<View>( 10, 1 );
         view.Width = Dim.Fill();
         view.Height = 1;
 
@@ -236,7 +238,7 @@ internal class MouseManagerTests : Tests
     {
         var d = Get10By10View();
 
-        var view = ViewFactory.Create(typeof(View));
+        var view = ViewFactory.Create<View>();
         view.Width = Dim.Fill();
         view.X = locationOfViewX;
         view.Y = locationOfViewY;
