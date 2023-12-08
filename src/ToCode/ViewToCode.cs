@@ -1,4 +1,4 @@
-using System.CodeDom;
+﻿using System.CodeDom;
 using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using Terminal.Gui;
@@ -94,8 +94,11 @@ public class ViewToCode
         var csharpCode = GetGenerateNewViewCode(className, namespaceName);
         File.WriteAllText(sourceFile.CsFile.FullName, csharpCode);
 
-        var prototype = (View)(Activator.CreateInstance(viewType) ?? throw new Exception($"Could not create instance of Type '{viewType}' ('Activator.CreateInstance' returned null)"));
-
+        if ( Activator.CreateInstance(viewType) is not View prototype )
+        {
+            throw new Exception( $"Could not create instance of Type '{viewType}' ('Activator.CreateInstance' returned null)" );
+        }
+        
         // Unlike Window and Dialog the default constructor on
         // View will be a size 0 view.  Make it big so it can be
         // edited
