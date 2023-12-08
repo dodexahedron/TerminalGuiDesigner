@@ -1,6 +1,3 @@
-using System;
-using Terminal.Gui;
-using TerminalGuiDesigner;
 using TerminalGuiDesigner.Operations.TableViewOperations;
 
 namespace UnitTests.Operations;

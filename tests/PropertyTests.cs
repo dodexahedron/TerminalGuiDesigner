@@ -1,11 +1,7 @@
 using System.CodeDom;
 using System.CodeDom.Compiler;
-using System.IO;
-using System.Linq;
 using System.Text;
 using Microsoft.CSharp;
-using Terminal.Gui;
-using TerminalGuiDesigner;
 using TerminalGuiDesigner.ToCode;
 using Attribute = Terminal.Gui.Attribute;
 

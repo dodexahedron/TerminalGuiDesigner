@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using Terminal.Gui;
-using TerminalGuiDesigner;
 using static Terminal.Gui.SpinnerStyle;
 
 namespace UnitTests

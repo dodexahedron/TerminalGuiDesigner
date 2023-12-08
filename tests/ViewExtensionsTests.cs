@@ -1,7 +1,3 @@
-using System;
-using Terminal.Gui;
-using TerminalGuiDesigner;
-
 namespace UnitTests;
 
 internal class ViewExtensionsTests : Tests

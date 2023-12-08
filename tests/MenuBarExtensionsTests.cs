@@ -1,5 +1,3 @@
-using Terminal.Gui;
-using TerminalGuiDesigner;
 using TerminalGuiDesigner.Operations.MenuOperations;
 
 namespace UnitTests;

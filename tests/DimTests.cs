@@ -1,6 +1,3 @@
-using Terminal.Gui;
-using TerminalGuiDesigner;
-
 namespace UnitTests;
 internal class DimTests
 {

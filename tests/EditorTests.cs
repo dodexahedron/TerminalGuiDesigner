@@ -1,6 +1,4 @@
-﻿using System;
-using Terminal.Gui;
-using TerminalGuiDesigner.Operations;
+﻿using TerminalGuiDesigner.Operations;
 using TerminalGuiDesigner.UI;
 
 namespace UnitTests;

@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using Terminal.Gui;
-using TerminalGuiDesigner;
-
-namespace UnitTests
+﻿namespace UnitTests
 {
     [TestFixture]
     internal class VisiblePropertyTests : Tests

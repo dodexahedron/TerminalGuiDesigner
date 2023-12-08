@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Terminal.Gui;
-using TerminalGuiDesigner.Operations.TabOperations;
+﻿using TerminalGuiDesigner.Operations.TabOperations;
 
 namespace UnitTests.Operations;
 

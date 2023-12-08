@@ -1,6 +1,4 @@
-﻿using TerminalGuiDesigner;
-
-namespace UnitTests;
+﻿namespace UnitTests;
 
 internal class StringExtensionTests
 {

@@ -1,7 +1,4 @@
-﻿using Terminal.Gui;
-using TerminalGuiDesigner;
-
-namespace UnitTests
+﻿namespace UnitTests
 {
     internal class StatusBarTests : Tests
     {
