@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using Terminal.Gui;
 using TerminalGuiDesigner;
@@ -78,12 +78,37 @@ public class ColorSchemeManager
 
         colorSchemes.AddRange( view.GetType( )
                                    .GetFields( BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly )
-                                   .Where( fieldInfo => fieldInfo.FieldType == typeof( ColorScheme ) )
-                                   .Select( fieldInfo => ( Field: fieldInfo, Scheme: fieldInfo.GetValue( view ) as ColorScheme ) )
-                                   .Where( fieldAndScheme => fieldAndScheme.Scheme is not null )
-                                   .Where( fieldAndNonNullScheme =>
-                                               !colorSchemes.Any( namedColorScheme => namedColorScheme.Name.Equals( fieldAndNonNullScheme.Field.Name ) ) )
-                                   .Select( fieldAndScheme => new NamedColorScheme( fieldAndScheme.Field.Name, fieldAndScheme.Scheme! ) ) );
+                                   .Where( FieldIsColorScheme )
+                                   .Select( FieldAndSchemeTuples )
+                                   .Where( SchemeIsNotNull )
+                                   .Where( SameNameDoesNotAlreadyExist )
+                                   .Select( NamedColorSchemesToAdd ) );
+        return;
+
+        static bool FieldIsColorScheme( FieldInfo fieldInfo )
+        {
+            return fieldInfo.FieldType == typeof( ColorScheme );
+        }
+
+        (FieldInfo Field, ColorScheme? Scheme) FieldAndSchemeTuples( FieldInfo fieldInfo )
+        {
+            return ( Field: fieldInfo, Scheme: fieldInfo.GetValue( view ) as ColorScheme );
+        }
+
+        static bool SchemeIsNotNull( (FieldInfo Field, ColorScheme? Scheme) fieldAndScheme )
+        {
+            return fieldAndScheme.Scheme is not null;
+        }
+
+        bool SameNameDoesNotAlreadyExist( (FieldInfo Field, ColorScheme? Scheme) fieldAndNonNullScheme )
+        {
+            return !colorSchemes.Any( namedColorScheme => namedColorScheme.Name.Equals( fieldAndNonNullScheme.Field.Name ) );
+        }
+
+        static NamedColorScheme NamedColorSchemesToAdd( (FieldInfo Field, ColorScheme? Scheme) fieldAndScheme )
+        {
+            return new ( fieldAndScheme.Field.Name, fieldAndScheme.Scheme! );
+        }
     }
 
     /// <summary>
