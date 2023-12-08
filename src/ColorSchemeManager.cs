@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using Terminal.Gui;
 using TerminalGuiDesigner;
@@ -77,7 +77,7 @@ public class ColorSchemeManager
         // find all fields of type ColorScheme in class
 
         colorSchemes.AddRange( view.GetType( )
-                                   .GetFields( BindingFlags.NonPublic | BindingFlags.Instance )
+                                   .GetFields( BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly )
                                    .Where( fieldInfo => fieldInfo.FieldType == typeof( ColorScheme ) )
                                    .Select( fieldInfo => ( Field: fieldInfo, Scheme: fieldInfo.GetValue( view ) as ColorScheme ) )
                                    .Where( fieldAndScheme => fieldAndScheme.Scheme is not null )
