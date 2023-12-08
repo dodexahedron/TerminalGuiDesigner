@@ -96,10 +96,10 @@ internal class Tests
 
         const string fieldName = "myViewOut";
 
-        var viewToCode = new ViewToCode();
+        ViewToCode viewToCode = new ViewToCode();
 
-        var file = new FileInfo(caller + ".cs");
-        var designOut = viewToCode.GenerateNewView(file, "YourNamespace", typeof(T1));
+        FileInfo file = new FileInfo(caller + ".cs");
+        Design designOut = viewToCode.GenerateNewView(file, "YourNamespace", typeof(T1));
 
         viewOut = ViewFactory.Create<T2>( );
 
@@ -108,8 +108,8 @@ internal class Tests
 
         viewToCode.GenerateDesignerCs(designOut, typeof(T1));
 
-        var codeToView = new CodeToView(designOut.SourceCode);
-        var designBackIn = codeToView.CreateInstance();
+        CodeToView codeToView = new CodeToView(designOut.SourceCode);
+        Design designBackIn = codeToView.CreateInstance();
 
         return designBackIn.View
                            .GetActualSubviews( )
