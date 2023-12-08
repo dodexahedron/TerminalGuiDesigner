@@ -17,7 +17,7 @@ internal class Tests
     private static bool _init;
 
     [SetUp]
-    public virtual void SetUp()
+    public void SetUp()
     {
         if (_init)
         {
@@ -31,7 +31,7 @@ internal class Tests
     }
 
     [TearDown]
-    public virtual void TearDown()
+    public void TearDown()
     {
         Application.Shutdown();
         _init = false;
