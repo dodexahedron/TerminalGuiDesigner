@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using TerminalGuiDesigner.FromCode;
 using TerminalGuiDesigner.Operations;
@@ -34,6 +35,11 @@ internal class Tests
         SelectionManager.Instance.LockSelection = false;
         SelectionManager.Instance.Clear();
         ColorSchemeManager.Instance.Clear();
+    }
+    
+    protected static MethodInfo Get_ViewFactoryCreateTConcreteForType(Type t)
+    {
+        return typeof( ViewFactory ).GetMethods( ).Single( m => m is { IsGenericMethod: true, IsPublic: true, IsStatic: true } ).MakeGenericMethod( t );
     }
 
     protected static Design Get10By10View()
