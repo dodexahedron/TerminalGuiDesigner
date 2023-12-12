@@ -9,7 +9,7 @@ namespace TerminalGuiDesigner.Operations.Generics;
 /// <typeparam name="T1">The <see cref="View"/> that your operation is modifying (e.g. <see cref="MenuBar"/>).</typeparam>
 /// <typeparam name="T2">The element type within the array that is being moved (e.g. <see cref="MenuBarItem"/>).</typeparam>
 public abstract class MoveOperation<T1, T2> : GenericArrayElementOperation<T1, T2>
-    where T1 : View
+    where T1 : View, new()
 {
     /// <summary>
     /// Gets the number of index positions the element will

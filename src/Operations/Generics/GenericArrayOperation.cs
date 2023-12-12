@@ -10,7 +10,7 @@ namespace TerminalGuiDesigner.Operations.Generics;
 /// <typeparam name="T1">The <see cref="View"/> Type that hosts the collection.</typeparam>
 /// <typeparam name="T2">The array element type.</typeparam>
 public abstract class GenericArrayOperation<T1, T2> : GenericOperation<T1>
-    where T1 : View
+    where T1 : View, new()
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="GenericArrayOperation{T1, T2}"/> class.

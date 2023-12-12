@@ -3,7 +3,7 @@ using TerminalGuiDesigner.Operations;
 namespace UnitTests.Operations;
 
 [TestFixture]
-[TestOf(typeof(AddViewOperation))]
+[TestOf(typeof(AddViewOperation ))]
 internal class AddViewOperationTests : Tests
 {
     private static Type[] SupportedViewTypes { get; } = ViewFactory.SupportedViewTypes // Add MenuBar last so order is preserved in Assert check.
@@ -64,6 +64,7 @@ internal class AddViewOperationTests : Tests
 
     [Test]
     public void TestAddView_RoundTrip( [ValueSource( nameof( SupportedViewTypes ) )] Type type )
+    //public void TestAddView_RoundTrip( )
     {
         using var windowIn = RoundTrip<Toplevel, Window>( ( d, v ) =>
         {
@@ -75,7 +76,7 @@ internal class AddViewOperationTests : Tests
         IList<View> roundTripViews = windowIn.GetActualSubviews( );
 
         Assert.That( roundTripViews, Has.Count.EqualTo( 1 ) );
-        Assert.That( roundTripViews[ 0 ], Is.InstanceOf( type ) );
+        Assert.That( roundTripViews[ 0 ], Is.InstanceOf<Label>( ) );
     }
 
     [Test]

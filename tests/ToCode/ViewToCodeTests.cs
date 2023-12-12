@@ -45,4 +45,23 @@ public class ViewToCodeTests
         Assert.That( result,Is.Not.Null );
         Assert.That( result.View, Is.InstanceOf( viewType ) );
     }
+
+    [Test]
+    public void GenerateDesignerCs_ValidParameters_NoExceptionThrown( )
+    {
+        //Design rootDesign = new Design( );
+        //Type viewType = typeof( View );
+
+        //Assert.DoesNotThrow( ( ) => _viewToCode.GenerateDesignerCs( rootDesign, viewType ) );
+    }
+
+    [Test]
+    public void AddSubViewsToDesignerCs_ValidParameters_NoExceptionThrown( )
+    {
+        //View forView = new View( );
+        //CodeDomArgs args = new CodeDomArgs( );
+        //CodeExpression parentViewExpression = null;
+
+        //Assert.DoesNotThrow( ( ) => _viewToCode.AddSubViewsToDesignerCs( forView, args, parentViewExpression ) );
+    }
 }

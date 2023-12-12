@@ -13,7 +13,8 @@ namespace TerminalGuiDesigner.UI;
 /// application.  Hooks key and mouse events and mounts as a sub-view whatever file
 /// the user opens.
 /// </summary>
-public class Editor : Toplevel
+public class Editor<T> : Toplevel
+where T : View, new()
 {
     private readonly KeyMap keyMap;
     private readonly KeyboardManager keyboardManager;
@@ -306,7 +307,7 @@ public class Editor : Toplevel
 
             if (keyEvent.Key == this.keyMap.Paste)
             {
-                this.Paste();
+                this.Paste<T>();
                 return true;
             }
 
@@ -403,43 +404,43 @@ public class Editor : Toplevel
 
             if (keyEvent.Key == this.keyMap.MoveUp)
             {
-                this.MoveControl(0, -1);
+                this.MoveControl<View>(0, -1);
                 return true;
             }
 
             if (keyEvent.Key == this.keyMap.MoveDown)
             {
-                this.MoveControl(0, 1);
+                this.MoveControl<View>(0, 1);
                 return true;
             }
 
             if (keyEvent.Key == this.keyMap.MoveLeft)
             {
-                this.MoveControl(-1, 0);
+                this.MoveControl<View>(-1, 0);
                 return true;
             }
 
             if (keyEvent.Key == this.keyMap.MoveRight)
             {
-                this.MoveControl(1, 0);
+                this.MoveControl<View>(1, 0);
                 return true;
             }
 
             if (keyEvent.Key == this.keyMap.MoveDown)
             {
-                this.MoveControl(0, 1);
+                this.MoveControl<View>(0, 1);
                 return true;
             }
 
             if (keyEvent.Key == this.keyMap.MoveLeft)
             {
-                this.MoveControl(-1, 0);
+                this.MoveControl<View>(-1, 0);
                 return true;
             }
 
             if (keyEvent.Key == this.keyMap.MoveRight)
             {
-                this.MoveControl(1, 0);
+                this.MoveControl<View>(1, 0);
                 return true;
             }
 
@@ -447,16 +448,16 @@ public class Editor : Toplevel
             switch (keyEvent.Key)
             {
                 case Key.CursorUp | Key.CtrlMask:
-                    this.MoveControl(0, -3);
+                    this.MoveControl<View>(0, -3);
                     return true;
                 case Key.CursorDown | Key.CtrlMask:
-                    this.MoveControl(0, 3);
+                    this.MoveControl<View>(0, 3);
                     return true;
                 case Key.CursorLeft | Key.CtrlMask:
-                    this.MoveControl(-5, 0);
+                    this.MoveControl<View>(-5, 0);
                     return true;
                 case Key.CursorRight | Key.CtrlMask:
-                    this.MoveControl(5, 0);
+                    this.MoveControl<View>(5, 0);
                     return true;
             }
         }
@@ -632,7 +633,7 @@ Ctrl+Q - Quit
             .Except(setProps)
             .GroupBy(k => k.Category, this.ToMenuItem);
 
-        var setPropsItems = setProps.Select(this.ToMenuItem).ToArray();
+        var setPropsItems = setProps.Select( this.ToMenuItem).ToArray();
         bool hasPropsItems = setPropsItems.Any();
 
         var all = new List<MenuItem>();
@@ -762,7 +763,8 @@ Ctrl+Q - Quit
         SelectionManager.Instance.ForceSetSelection(everyone);
     }
 
-    private void Paste()
+    private void Paste<T>()
+    where T : View, new()
     {
         var d = SelectionManager.Instance.GetMostSelectedContainerOrNull() ?? this.viewBeingEdited;
 
@@ -805,7 +807,8 @@ Ctrl+Q - Quit
         ChoicesDialog.Query("Help", this.GetHelp(), "Ok");
     }
 
-    private void MoveControl(int deltaX, int deltaY)
+    private void MoveControl<TView>(int deltaX, int deltaY)
+    where TView : View, new()
     {
         this.DoForSelectedViews((d) => new MoveViewOperation(d, deltaX, deltaY));
     }
@@ -837,7 +840,7 @@ Ctrl+Q - Quit
         {
             var op = new CompositeOperation(
                 SelectionManager.Instance.Selected
-                .Select(operationFuc).ToArray());
+                                .Select(operationFuc).ToArray());
 
             OperationManager.Instance.Do(op);
         }

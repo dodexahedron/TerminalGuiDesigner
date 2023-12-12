@@ -1,6 +1,13 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis;
+
 using TerminalGuiDesigner.FromCode;
 using TerminalGuiDesigner.Operations;
 using TerminalGuiDesigner.ToCode;
+
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+
 
 namespace UnitTests;
 
@@ -20,7 +27,7 @@ internal class AddViewTests : Tests
         var file = new FileInfo("TestAdd_Undo.cs");
         var designOut = viewToCode.GenerateNewView(file, "YourNamespace", typeof(Dialog));
 
-        var lbl = ViewFactory.Create<Label>( );
+        Label lbl = ViewFactory.Create<Label>( );
         var op = new AddViewOperation(lbl, designOut, "label1");
 
         OperationManager.Instance.Do(op);
@@ -74,12 +81,7 @@ internal class AddViewTests : Tests
     [Test]
     public void Test60Percent_RoundTrip([Range(-1,1)]int offsetValue)
     {
-        var lblIn = RoundTrip<Dialog, Label>(
-            ( d, lbl ) =>
-            {
-                lbl.Width = Dim.Percent( 60f ) + offsetValue;
-                lbl.X = Pos.Percent( 60f ) + offsetValue;
-            }, out var lblOut );
+        var lblIn = RoundTrip<Window, Label>( Adjust, out var lblOut );
 
         Assert.That( lblIn.Text, Is.EqualTo( lblOut.Text ) );
 
@@ -94,5 +96,12 @@ internal class AddViewTests : Tests
             Assert.That( outPosType, Is.EqualTo( PosType.Percent ) );
             Assert.That( 60f - outPosValue, Is.Zero.Within( 0.0001 ) );
         } );
+        return;
+
+        void Adjust( Design d, Label lbl )
+        {
+            lbl.Width = Dim.Percent( 60f ) + offsetValue;
+            lbl.X = Pos.Percent( 60f ) + offsetValue;
+        }
     }
 }

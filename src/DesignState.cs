@@ -51,7 +51,7 @@ public class DesignState
 
     private void DrawContent(object? sender, DrawEventArgs r)
     {
-        if (this.Design.View.IsBorderlessContainerView() && Editor.ShowBorders)
+        if (this.Design.View.IsBorderlessContainerView() && Editor<View>.ShowBorders)
         {
             this.DrawBorderlessViewFrame(r.Rect);
         }

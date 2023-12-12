@@ -1,3 +1,5 @@
+using Terminal.Gui;
+
 namespace TerminalGuiDesigner.Operations;
 
 /// <summary>
@@ -18,6 +20,7 @@ public class OperationManager
     /// <summary>
     /// Gets the Singleton instance of <see cref="OperationManager"/>.
     /// </summary>
+    [field: ContextStatic]
     public static OperationManager Instance { get; } = new();
 
     /// <summary>
@@ -49,7 +52,7 @@ public class OperationManager
             {
                 // We can no longer redo
                 this.redoStack.Clear();
-                this.undoStack.Push(op);
+                this.undoStack.Push( op );
             }
 
             return true;

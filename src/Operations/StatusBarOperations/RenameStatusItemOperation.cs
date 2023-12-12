@@ -19,7 +19,7 @@ namespace TerminalGuiDesigner.Operations.StatusBarOperations
             : base(
                   (d) => d.Items,
                   (d, v) => d.Items = v,
-                  (v) => v.Title.ToString() ?? Operation.Unnamed,
+                  (v) => v.Title.ToString( ),
                   (v, n) => v.Title = n,
                   design,
                   toRename,

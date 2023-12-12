@@ -8,7 +8,7 @@ internal class EditorTests : Tests
     [Test]
     public void TestHasUnsavedChanges()
     {
-        var e = new Editor();
+        var e = new Editor<View>();
 
         ClassicAssert.IsFalse(e.HasUnsavedChanges(), "With nothing open there should not be any unsaved changes");
 
@@ -18,7 +18,7 @@ internal class EditorTests : Tests
 
         // fake a save
         var lastOp = OperationManager.Instance.GetLastAppliedOperation() ?? throw new Exception("Expected DummyOperation to be known as the last performed");
-        var f = typeof(Editor).GetField("lastSavedOperation", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new Exception("Missing field");
+        var f = typeof(Editor<View>).GetField("lastSavedOperation", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new Exception("Missing field");
         f.SetValue(e, lastOp.UniqueIdentifier);
 
         ClassicAssert.IsFalse(e.HasUnsavedChanges(), "Now that we have saved there should be no unsaved changes");

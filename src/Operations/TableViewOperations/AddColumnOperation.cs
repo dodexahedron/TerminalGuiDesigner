@@ -21,7 +21,7 @@ public class AddColumnOperation : AddOperation<TableView, DataColumn>
             (v) => v.GetDataTable().Columns.Cast<DataColumn>().ToArray(),
             (v, a) => v.ReOrderColumns(a),
             (c) => c.ColumnName,
-            (v, n) => { return v.GetDataTable()?.Columns.Add(n) ?? throw new Exception("TableView Table had not been initialized at the time we were asked to construct a new DataColumn for it."); },
+            (v, n) => v.GetDataTable()?.Columns.Add(n) ?? throw new ("TableView Table had not been initialized at the time we were asked to construct a new DataColumn for it."),
             design,
             newColumnName)
     {

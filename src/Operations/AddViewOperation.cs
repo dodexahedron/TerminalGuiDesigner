@@ -1,12 +1,19 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Terminal.Gui;
 using TerminalGuiDesigner.UI.Windows;
 
 namespace TerminalGuiDesigner.Operations;
 
 /// <summary>
-/// <see cref="Operation"/> for adding a new <see cref="View"/> to a <see cref="Design"/>.
-/// Supports adding to the root or any container view (e.g. <see cref="TabView"/>).
+///   <see cref="Operation" /> for adding a new <see cref="View" /> to a <see cref="Design" />.
+///   Supports adding to the root or any container view (e.g. <see cref="TabView" />).
 /// </summary>
+/// <typeparam name="T">
+///   The type of <see cref="View" /> for this operation.<br />
+///   Must inherit from <see cref="View" /> and be a supported type.<br />
+///   Explicitly using <see cref="View" />, as a fallback, is acceptable.<br />
+///   Must be a concrete type understood by <see cref="ViewFactory" />
+/// </typeparam>
 public class AddViewOperation : Operation
 {
     private readonly Design to;
@@ -18,7 +25,8 @@ public class AddViewOperation : Operation
     /// When/If run this operation will add <paramref name="add"/> to the <see cref="View"/>
     /// wrapped by <paramref name="to"/> with the provided <paramref name="fieldName"/>.
     /// </summary>
-    /// <param name="add">A <see cref="View"/> instance to add.  If you want to pick at runtime then
+    /// <param name="add">An instance of <typeparamref name="T"/>, which must inherit from <see cref="View"/> to add.<br />
+    /// If you want to pick at runtime then
     /// use <see cref="AddViewOperation(Design)"/> overload instead.</param>
     /// <param name="to">A <see cref="Design"/> (which should be <see cref="Design.IsContainerView"/>)
     /// to add the <paramref name="add"/> to.</param>
@@ -80,7 +88,7 @@ public class AddViewOperation : Operation
 
             if (Modals.Get("Type of Control", "Add", true, selectable, static t => t?.Name ?? "Null", false, null, out var selected))
             {
-                this.add = ViewFactory.Create(selected);
+                this.add = ViewFactory.Create( add.GetType() );
                 this.fieldName = this.to.GetUniqueFieldName(selected);
             }
         }

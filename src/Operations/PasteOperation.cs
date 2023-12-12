@@ -4,7 +4,7 @@ using Terminal.Gui;
 namespace TerminalGuiDesigner.Operations;
 
 /// <summary>
-/// Creates new copies of all <see cref="Design"/> captured by a <see cref="CopyOperation"/>.
+/// Creates new copies of all <see cref="Design"/> captured by a <see cref="CopyOperation{T}"/>.
 /// </summary>
 public class PasteOperation : Operation
 {
@@ -19,7 +19,7 @@ public class PasteOperation : Operation
     private readonly Dictionary<Design, Design> clones = new();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PasteOperation"/> class.
+    /// Initializes a new instance of the <see cref="PasteOperation{TView}"/> class.
     /// </summary>
     /// <param name="addTo">The container <see cref="Design"/> into which to
     /// add the <see cref="Design"/>.  This allows for copying from one container
@@ -141,8 +141,8 @@ public class PasteOperation : Operation
 
     private bool Paste(Design copy, Design into)
     {
-        var clone = ViewFactory.Create(copy.View.GetType());
-        var addOperation = new AddViewOperation(clone, into, null);
+        var clone = ViewFactory.Create(copy.View.GetType(  ));
+        AddViewOperation addOperation = new (clone, into, null);
 
         // couldn't add for some reason
         if (!addOperation.Do())
@@ -150,7 +150,7 @@ public class PasteOperation : Operation
             return false;
         }
 
-        this.addOperations.Add(addOperation);
+        this.addOperations.Add( addOperation );
 
         var cloneDesign = clone.Data as Design ?? throw new Exception($"AddViewOperation did not result in View of type {clone.GetType()} having a Design");
 
@@ -232,7 +232,7 @@ public class PasteOperation : Operation
         // add a new Tab for each one in the source
         foreach (var copyTab in copy.Tabs)
         {
-            var tab = pasted.AddEmptyTab(copyTab.Text?.ToString() ?? Operation.Unnamed);
+            var tab = pasted.AddEmptyTab(copyTab.Text?.ToString() ?? Unnamed);
 
             // copy the tab contents
             copy.SelectedTab = copyTab;

@@ -11,7 +11,7 @@ namespace TerminalGuiDesigner.Operations.Generics;
 /// <typeparam name="T1">The <see cref="View"/> that hosts the collection you want to modify.</typeparam>
 /// <typeparam name="T2">The element <see cref="Type"/> that makes up the collection, that is being added to.</typeparam>
 public abstract class AddOperation<T1, T2> : GenericArrayOperation<T1, T2>
-    where T1 : View
+    where T1 : View, new()
 {
     private readonly ArrayElementFactory<T1, T2> elementFactory;
 

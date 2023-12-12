@@ -1,7 +1,9 @@
-﻿namespace TerminalGuiDesigner.Operations;
+﻿using Terminal.Gui;
+
+namespace TerminalGuiDesigner.Operations;
 
 /// <summary>
-/// Abstract base class for <see cref="IOperation"/>.
+/// Abstract base class for <see cref="IOperation{TView}"/>.
 /// </summary>
 public abstract class Operation : IOperation
 {
@@ -53,10 +55,10 @@ public abstract class Operation : IOperation
     protected abstract bool DoImpl();
 
     /// <summary>
-    /// Returns human readable name for the instance based on it's
+    /// Returns human-readable name for the instance based on it's
     /// C# class name.
     /// </summary>
-    /// <returns>Human readable name.</returns>
+    /// <returns>Human-readable name.</returns>
     protected string GetOperationName()
     {
         string name = this.GetType().Name;

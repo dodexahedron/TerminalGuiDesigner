@@ -45,7 +45,7 @@ public abstract class MenuItemOperation : Operation
     public MenuBarItem? Parent { get; private set; }
 
     /// <summary>
-    /// Gets the <see cref="MenuItem"/> that will be affected by this <see cref="Operation"/>.
+    /// Gets the <see cref="MenuItem"/> that will be affected by this <see cref="Operation{TView}"/>.
     /// </summary>
     protected MenuItem? OperateOn { get; private set; }
 }

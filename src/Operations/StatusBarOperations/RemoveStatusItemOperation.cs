@@ -18,7 +18,7 @@ namespace TerminalGuiDesigner.Operations.StatusBarOperations
             : base(
                   (v) => v.Items,
                   (v, a) => v.Items = a,
-                  (e) => e.Title?.ToString() ?? Operation.Unnamed,
+                  (e) => e.Title?.ToString() ?? Unnamed,
                   design,
                   toRemove)
         {

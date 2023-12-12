@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Reflection;
 using Basic.Reference.Assemblies;
 using Microsoft.CodeAnalysis;
@@ -103,14 +103,15 @@ public class CodeToView
 
         View view;
 
+        Type typeToDesign = instances[0];
         try
         {
-            view = Activator.CreateInstance(instances[0]) as View
-                ?? throw new Exception($"Activator.CreateInstance returned null or class in {this.SourceFile.DesignerFile} was not a View");
+            view = Activator.CreateInstance( typeToDesign ) as View
+                ?? throw new Exception( $"Activator.CreateInstance returned null or class in {this.SourceFile.DesignerFile} was not a View" );
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
-            throw new Exception($"Could not create instance of {instances[0].FullName}", ex);
+            throw new Exception( $"Could not create instance of {typeToDesign.FullName}", ex );
         }
 
         var toReturn = new Design(this.SourceFile, Design.RootDesignName, view);
@@ -159,7 +160,7 @@ public class CodeToView
         var options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
         var compilation = CSharpCompilation.Create(
-                Guid.NewGuid().ToString() + ".dll",
+                $"{this.Namespace}.{this.ClassName}.{Guid.NewGuid()}.dll",
                 new CSharpSyntaxTree[] { csTree, designerTree },
                 references,
                 options);

@@ -1,3 +1,5 @@
+using Terminal.Gui;
+
 namespace TerminalGuiDesigner.Operations;
 
 /// <summary>

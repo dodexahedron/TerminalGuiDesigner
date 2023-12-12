@@ -9,7 +9,7 @@ namespace TerminalGuiDesigner.Operations.Generics;
 /// <typeparam name="T1">The Type of <see cref="View"/> that hosts the collection.</typeparam>
 /// <typeparam name="T2">Array element Type.</typeparam>
 public abstract class RemoveOperation<T1, T2> : GenericArrayElementOperation<T1, T2>
-    where T1 : View
+    where T1 : View, new()
 {
     private readonly int idx;
 

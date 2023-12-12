@@ -1,5 +1,6 @@
 using System.Data;
 using System.Reflection;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Terminal.Gui;
 using Terminal.Gui.TextValidateProviders;
 using TerminalGuiDesigner.Operations.MenuOperations;
@@ -84,11 +85,12 @@ public static class ViewFactory
                     IsInterface: false,
                     IsAbstract: false,
                     IsPublic: true,
-                    IsValueType: false
+                    IsValueType: false,
+                    ContainsGenericParameters: false
                 } )
                 .Where( filteredType => filteredType.IsSubclassOf( ViewType ) )
-                .Where( viewDescendantType => !KnownUnsupportedTypes.Any( viewDescendantType.IsAssignableTo )
-                                              || viewDescendantType == typeof( Window ) );
+                .Where( viewDescendantType => !KnownUnsupportedTypes.Any(viewDescendantType.IsAssignableTo )
+                                              || viewDescendantType == typeof(Window ) );
 
     private static bool IsSupportedType( this Type t )
     {
@@ -120,7 +122,7 @@ public static class ViewFactory
     ///   not exist in the <see cref="KnownUnsupportedTypes" /> collection, at run-time.
     /// </remarks>
     public static T Create<T>(int? width = null, int? height = null )
-        where T : View, new( )
+        where T : View, new()
     {
         if ( !IsSupportedType( typeof( T ) ) )
         {

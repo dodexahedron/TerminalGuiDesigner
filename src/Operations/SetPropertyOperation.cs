@@ -25,7 +25,7 @@ public class SetPropertyOperation : Operation
     private readonly SetPropertyMemento[] mementos;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SetPropertyOperation"/> class.
+    /// Initializes a new instance of the <see cref="SetPropertyOperation{TView}"/> class.
     /// Operation that changes <paramref name="property"/> to have a new value.  Value is
     /// sought by invoking the <paramref name="valueGetter"/> delegate at <see cref="IOperation.Do"/>
     /// time.  Throw <see cref="OperationCanceledException"/> in delegate if you want to perform last
@@ -42,7 +42,7 @@ public class SetPropertyOperation : Operation
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SetPropertyOperation"/> class.
+    /// Initializes a new instance of the <see cref="SetPropertyOperation{TView}"/> class.
     /// Operation that changes the <paramref name="property"/> to have a specific <paramref name="newValue"/>.
     /// </summary>
     /// <param name="design">A single <see cref="Design"/> on which to change a single <paramref name="property"/>.</param>
@@ -66,7 +66,7 @@ public class SetPropertyOperation : Operation
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SetPropertyOperation"/> class.
+    /// Initializes a new instance of the <see cref="SetPropertyOperation{TView}"/> class.
     /// Constructor for setting the same property on multiple views at once (e.g. change color scheme on
     /// all multi selected views).
     /// </summary>

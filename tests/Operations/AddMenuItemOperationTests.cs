@@ -14,7 +14,7 @@ internal class AddMenuItemOperationTests : Tests
         // when the first MenuBar was added by ViewFactory
         string? firstMenuItemName = null;
 
-        var viewIn = RoundTrip<View, MenuBar>((_, menuBar) =>
+        var viewIn = RoundTrip<Window, MenuBar>((_, menuBar) =>
         {
             ClassicAssert.IsNotNull(menuBar.Menus[0].Children[0], "Expected a new MenuBar added in Designer to have a placeholder MenuItem entry");
             ClassicAssert.AreEqual(1, menuBar.Menus[0].Children.Length);

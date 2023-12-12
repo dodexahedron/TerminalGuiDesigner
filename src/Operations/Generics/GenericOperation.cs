@@ -8,7 +8,7 @@ namespace TerminalGuiDesigner.Operations.Generics;
 /// </summary>
 /// <typeparam name="T">Type of <see cref="View"/> the <see cref="Operation"/> runs on.</typeparam>
 public abstract class GenericOperation<T> : Operation
-        where T : View
+        where T : View, new()
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="GenericOperation{T}"/> class.

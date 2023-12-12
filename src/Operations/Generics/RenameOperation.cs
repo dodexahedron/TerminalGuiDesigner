@@ -11,7 +11,7 @@ namespace TerminalGuiDesigner.Operations.Generics;
 /// <typeparam name="T1">Type of <see cref="View"/> that hosts the collection.</typeparam>
 /// <typeparam name="T2">Type of array element that is to be renamed (e.g. <see cref="Tab"/>).</typeparam>
 public abstract class RenameOperation<T1, T2> : GenericArrayElementOperation<T1, T2>
-    where T1 : View
+    where T1 : View, new()
 {
     private readonly StringSetterDelegate<T2> stringSetter;
     private readonly string originalName;

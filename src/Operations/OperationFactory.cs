@@ -1,4 +1,5 @@
 ﻿using Terminal.Gui;
+using TerminalGuiDesigner.Operations.Generics;
 using TerminalGuiDesigner.ToCode;
 
 namespace TerminalGuiDesigner.Operations;
@@ -76,7 +77,7 @@ public class OperationFactory
                 if (all.Count == selected.Length)
                 {
                     // create an operation to change them all at once
-                    props.Add(new SetPropertyOperation(all.Select(v => v.Design).ToArray(), propertyName, this.valueGetter));
+                    props.Add(new (all.Select(v => v.Design).ToArray(), propertyName, this.valueGetter));
                 }
             }
 
@@ -105,7 +106,7 @@ public class OperationFactory
             d.GetExtraOperations() :
             d.GetExtraOperations(d.View.ScreenToBounds(m.X, m.Y));
 
-        foreach (var extra in ops.Where(c => !c.IsImpossible))
+        foreach (SetPropertyOperation extra in ops.OfType<SetPropertyOperation>().Where(c => !c.IsImpossible))
         {
             yield return extra;
         }

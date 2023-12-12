@@ -19,10 +19,10 @@ public partial class Program
                    .WithParsed<Options>(o =>
                    {
                        Application.UseSystemConsole = o.Usc;
-                       Editor.Experimental = o.Experimental;
+                       Editor<View>.Experimental = o.Experimental;
 
                        Application.Init();
-                       var editor = new Editor();
+                       var editor = new Editor<View>();
                        editor.Run(o);
                    });
     }
