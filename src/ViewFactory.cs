@@ -242,102 +242,68 @@ public static class ViewFactory
     /// <remarks>Delegates to <see cref="Create{T}" />, for types supported by that method.</remarks>
     public static View Create(Type t)
     {
-        if (typeof(TableView).IsAssignableFrom(t))
+        switch ( t )
         {
-            return Create<TableView>( );
+            case not null when typeof(Button).IsAssignableFrom( t ):
+                return Create<Button>( );
+            case not null when typeof(CheckBox).IsAssignableFrom( t ):
+                return Create<CheckBox>( );
+            case not null when typeof(ColorPicker).IsAssignableFrom( t ):
+                return Create<ColorPicker>( );
+            case not null when typeof(ComboBox).IsAssignableFrom( t ):
+                return Create<ComboBox>( );
+            case not null when typeof(DateField).IsAssignableFrom( t ):
+                return Create<DateField>( );
+            case not null when typeof(FrameView).IsAssignableFrom( t ):
+                return Create<FrameView>( );
+            case not null when typeof(GraphView).IsAssignableFrom( t ):
+                return Create<GraphView>( );
+            case not null when typeof(HexView).IsAssignableFrom( t ):
+                return Create<HexView>( );
+            case not null when typeof(Label).IsAssignableFrom( t ):
+                return Create<Label>( );
+            case not null when typeof(Line).IsAssignableFrom( t ):
+                return Create<Line>( );
+            case not null when typeof(LineView).IsAssignableFrom( t ):
+                return Create<LineView>( );
+            case not null when typeof(ListView).IsAssignableFrom( t ):
+                return Create<ListView>( );
+            case not null when typeof(MenuBar).IsAssignableFrom( t ):
+                return Create<MenuBar>( );
+            case not null when typeof(ProgressBar).IsAssignableFrom( t ):
+                return Create<ProgressBar>( );
+            case not null when typeof(RadioGroup).IsAssignableFrom( t ):
+                return Create<RadioGroup>( );
+            case not null when typeof(ScrollView).IsAssignableFrom( t ):
+                return Create<ScrollView>( );
+            case not null when typeof(Slider).IsAssignableFrom( t ):
+                return Create<Slider>( );
+            case not null when typeof(SpinnerView).IsAssignableFrom( t ):
+                return Create<SpinnerView>( );
+            case not null when typeof(StatusBar).IsAssignableFrom( t ):
+                return Create<StatusBar>( );
+            case not null when typeof(TableView).IsAssignableFrom( t ):
+                return Create<TableView>( );
+            case not null when typeof(TabView).IsAssignableFrom( t ):
+                return Create<TabView>( );
+            case not null when typeof(TimeField).IsAssignableFrom( t ):
+                return Create<TimeField>( );
+            case not null when typeof(TextValidateField).IsAssignableFrom( t ):
+                return Create<TextValidateField>( );
+            case not null when typeof(TextField).IsAssignableFrom( t ):
+                return Create<TextField>( );
+            case not null when typeof(TextView).IsAssignableFrom( t ):
+                return Create<TextView>( );
+            case not null when typeof(TileView).IsAssignableFrom( t ):
+                return Create<TileView>( );
+            case not null when typeof(TreeView).IsAssignableFrom( t ):
+                return Create<TreeView>( );
+            case not null when typeof(Window).IsAssignableFrom( t ):
+                return Create<Window>( );
+            case not null when typeof(View).IsAssignableFrom( t ):
+                return Create<View>( );
+            default:
+                throw new NotSupportedException( $"Type {t.Name} is not supported. Must inherit from View." );
         }
-
-        if (typeof(TabView).IsAssignableFrom(t))
-        {
-            return Create<TabView>( );
-        }
-
-        if (typeof(RadioGroup).IsAssignableFrom(t))
-        {
-            return Create<RadioGroup>( );
-        }
-
-        if (typeof(MenuBar).IsAssignableFrom(t))
-        {
-            return Create<MenuBar>( );
-        }
-
-        if (typeof(StatusBar).IsAssignableFrom(t))
-        {
-            return Create<StatusBar>( );
-        }
-
-        if (t == typeof(TextValidateField))
-        {
-            return Create<TextValidateField>( );
-        }
-
-        if (t == typeof(ProgressBar))
-        {
-            return Create<ProgressBar>( );
-        }
-
-        if (t == typeof(View))
-        {
-            return Create<View>( );
-        }
-
-        if (t == typeof(Window))
-        {
-            return Create<Window>( );
-        }
-
-        if (t == typeof(TextField))
-        {
-            return Create<TextField>( );
-        }
-
-        if (typeof(GraphView).IsAssignableFrom(t))
-        {
-            return Create<GraphView>( );
-        }
-
-        if (typeof(ListView).IsAssignableFrom(t))
-        {
-            return Create<ListView>( );
-        }
-
-        if (t == typeof(LineView))
-        {
-            return Create<LineView>( );
-        }
-
-        if (t == typeof(TreeView))
-        {
-            return Create<TreeView>( );
-        }
-
-        if (t == typeof(ScrollView))
-        {
-            return Create<ScrollView>( );
-        }
-
-        if (typeof(SpinnerView).IsAssignableFrom(t))
-        {
-            return Create<SpinnerView>( );
-        }
-
-        if ( typeof( FrameView ).IsAssignableFrom( t ) )
-        {
-            return Create<FrameView>( );
-        }
-
-        if ( typeof( HexView ).IsAssignableFrom( t ) )
-        {
-            return Create<HexView>( );
-        }
-
-        var instance = Activator.CreateInstance(t) as View ?? throw new Exception($"CreateInstance returned null for Type '{t}'");
-        instance.SetActualText("Heya");
-
-        instance.Width = Math.Max(instance.Bounds.Width, 4);
-        instance.Height = Math.Max(instance.Bounds.Height, 1);
-
-        return instance;
     }
 }
