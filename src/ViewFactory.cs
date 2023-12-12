@@ -92,7 +92,7 @@ public static class ViewFactory
 
     private static bool IsSupportedType( this Type t )
     {
-        return t == typeof( Window ) || ( !KnownUnsupportedTypes.Any( t.IsSubclassOf ) & !KnownUnsupportedTypes.Contains( t ) );
+        return t == typeof( Window ) || ( SupportedViewTypes.Any( t.IsAssignableTo ) && !KnownUnsupportedTypes.Any( t.IsAssignableTo ) );
     }
 
     /// <summary>
