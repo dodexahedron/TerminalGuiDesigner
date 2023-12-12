@@ -96,14 +96,15 @@ internal class Tests
 
         const string fieldName = "myViewOut";
 
-        ViewToCode viewToCode = new ViewToCode();
+        ViewToCode viewToCode = new ();
 
-        FileInfo file = new FileInfo(caller + ".cs");
+        FileInfo file = new ( $"{caller}.cs" );
         Design designOut = viewToCode.GenerateNewView(file, "YourNamespace", typeof(T1));
 
         viewOut = ViewFactory.Create<T2>( );
 
-        OperationManager.Instance.Do(new AddViewOperation(viewOut, designOut, fieldName));
+        AddViewOperation addViewOperation = new (viewOut, designOut, fieldName);
+        OperationManager.Instance.Do(addViewOperation);
         adjust((Design)viewOut.Data, viewOut);
 
         viewToCode.GenerateDesignerCs(designOut, typeof(T1));
@@ -111,10 +112,10 @@ internal class Tests
         CodeToView codeToView = new CodeToView(designOut.SourceCode);
         Design designBackIn = codeToView.CreateInstance();
 
-        return designBackIn.View
-                           .GetActualSubviews( )
-                           .OfType<T2>( )
-                           .Single( v => v.Data is Design { FieldName: fieldName } );
+        IList<View> actualSubviews = designBackIn.View.GetActualSubviews( );
+        IEnumerable<T2> viewsOfRequestedType = actualSubviews.OfType<T2>( );
+        return viewsOfRequestedType
+               .Single( v => v.Data is Design { FieldName: fieldName } );
     }
     /// <summary>
     /// Performs a mouse drag from the first coordinates to the second (in screen space)
